@@ -1,25 +1,71 @@
 import { Sun, Cloud, CloudRain, CloudSun, Sprout, Landmark, Calculator } from 'lucide-react';
 
-export const weatherData = {
-  current: {
-    city: 'weather.city',
-    temperature: 28,
-    condition: 'weather.conditions.partlyCloudy',
-    icon: CloudSun,
-    humidity: 65,
-    wind: 12,
+export const locations = ['Delhi', 'Mumbai', 'Bangalore'] as const;
+export type Location = typeof locations[number];
+
+export const weatherDataByLocation = {
+  'Delhi': {
+    current: {
+      city: 'weather.cities.delhi',
+      temperature: 32,
+      condition: 'weather.conditions.sunny',
+      icon: Sun,
+      humidity: 40,
+      wind: 8,
+    },
+    forecast: [
+      { day: 'days.mon', temp: 33, condition: 'weather.conditions.sunny', icon: Sun },
+      { day: 'days.tue', temp: 34, condition: 'weather.conditions.sunny', icon: Sun },
+      { day: 'days.wed', temp: 32, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+      { day: 'days.thu', temp: 30, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+      { day: 'days.fri', temp: 33, condition: 'weather.conditions.sunny', icon: Sun },
+      { day: 'days.sat', temp: 35, condition: 'weather.conditions.sunny', icon: Sun },
+      { day: 'days.sun', temp: 34, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+    ],
+    advisory: 'weather.advisories.delhi'
   },
-  forecast: [
-    { day: 'days.mon', temp: 29, condition: 'weather.conditions.sunny', icon: Sun },
-    { day: 'days.tue', temp: 31, condition: 'weather.conditions.sunny', icon: Sun },
-    { day: 'days.wed', temp: 30, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
-    { day: 'days.thu', temp: 27, condition: 'weather.conditions.rain', icon: CloudRain },
-    { day: 'days.fri', temp: 29, condition: 'weather.conditions.cloudy', icon: Cloud },
-    { day: 'days.sat', temp: 32, condition: 'weather.conditions.sunny', icon: Sun },
-    { day: 'days.sun', temp: 31, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
-  ],
-  advisory: 'weather.advisoryText'
+  'Mumbai': {
+    current: {
+      city: 'weather.cities.mumbai',
+      temperature: 29,
+      condition: 'weather.conditions.rain',
+      icon: CloudRain,
+      humidity: 85,
+      wind: 20,
+    },
+    forecast: [
+      { day: 'days.mon', temp: 28, condition: 'weather.conditions.rain', icon: CloudRain },
+      { day: 'days.tue', temp: 29, condition: 'weather.conditions.rain', icon: CloudRain },
+      { day: 'days.wed', temp: 29, condition: 'weather.conditions.cloudy', icon: Cloud },
+      { day: 'days.thu', temp: 27, condition: 'weather.conditions.rain', icon: CloudRain },
+      { day: 'days.fri', temp: 28, condition: 'weather.conditions.rain', icon: CloudRain },
+      { day: 'days.sat', temp: 30, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+      { day: 'days.sun', temp: 30, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+    ],
+    advisory: 'weather.advisories.mumbai'
+  },
+  'Bangalore': {
+    current: {
+      city: 'weather.cities.bangalore',
+      temperature: 24,
+      condition: 'weather.conditions.partlyCloudy',
+      icon: CloudSun,
+      humidity: 75,
+      wind: 15,
+    },
+    forecast: [
+      { day: 'days.mon', temp: 25, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+      { day: 'days.tue', temp: 26, condition: 'weather.conditions.cloudy', icon: Cloud },
+      { day: 'days.wed', temp: 24, condition: 'weather.conditions.rain', icon: CloudRain },
+      { day: 'days.thu', temp: 23, condition: 'weather.conditions.rain', icon: CloudRain },
+      { day: 'days.fri', temp: 25, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+      { day: 'days.sat', temp: 26, condition: 'weather.conditions.cloudy', icon: Cloud },
+      { day: 'days.sun', temp: 26, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+    ],
+    advisory: 'weather.advisories.bangalore'
+  }
 };
+
 
 export const mandiPrices = [
   { id: 1, crop: 'Wheat', variety: 'Dara', mandi: 'Azadpur, Delhi', price: 2350, change: 1.2 },

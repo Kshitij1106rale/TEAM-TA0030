@@ -11,6 +11,7 @@
     },
     "header": {
         "language": "Language",
+        "location": "Location",
         "notifications": "Toggle notifications",
         "userMenu": "Toggle user menu",
         "myAccount": "My Account",
@@ -49,8 +50,16 @@
         "humidity": "Humidity",
         "wind": "Wind",
         "farmingAdvisory": "Farming Advisory",
-        "advisoryText": "Light rain expected on Thursday. Ensure proper drainage for crops to avoid waterlogging.",
-        "city": "Ruralville",
+        "advisories": {
+            "delhi": "High temperatures expected. Ensure adequate irrigation for crops.",
+            "mumbai": "Heavy rainfall predicted. Check for waterlogging in fields and ensure proper drainage.",
+            "bangalore": "Cloudy with intermittent showers. Good time for planting new crops."
+        },
+        "cities": {
+            "delhi": "Delhi",
+            "mumbai": "Mumbai",
+            "bangalore": "Bangalore"
+        },
         "conditions": {
             "sunny": "Sunny",
             "partlyCloudy": "Partly Cloudy",

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import { locations, type Location } from '@/lib/data';
 
 // Import locales
 import en from '@/locales/en.json';
@@ -14,6 +15,8 @@ export type Language = 'en' | 'hi' | 'mr';
 interface I18nContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
+  location: Location;
+  setLocation: (location: Location) => void;
   t: (key: string,
     options?: { [key: string]: string | number }
   ) => string;
@@ -36,6 +39,7 @@ function deepValue(obj: any, path: string) {
 
 export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('en');
+  const [location, setLocation] = useState<Location>(locations[0]);
 
   const t = useCallback((key: string): string => {
     const fallbackLang = 'en';
@@ -49,7 +53,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return translated || key;
   }, [language]);
   
-  const value = useMemo(() => ({ language, setLanguage, t }), [language, t]);
+  const value = useMemo(() => ({ language, setLanguage, location, setLocation, t }), [language, location, t]);
 
   return (
     <I18nContext.Provider value={value}>

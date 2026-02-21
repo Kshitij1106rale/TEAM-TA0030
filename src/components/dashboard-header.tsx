@@ -8,6 +8,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
 import {
   Select,
@@ -16,14 +21,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { LifeBuoy, LogOut, Settings, User } from "lucide-react";
+import { LifeBuoy, LogOut, Settings, User, MapPin } from "lucide-react";
 import { Button } from "./ui/button";
 import { SidebarTrigger } from "./ui/sidebar";
 import { useTranslation, type Language } from "@/providers/i18n-provider";
 import { NotificationsDropdown } from "./notifications-dropdown";
+import { locations, type Location } from "@/lib/data";
 
 export function DashboardHeader() {
-  const { t, setLanguage, language } = useTranslation();
+  const { t, setLanguage, language, location, setLocation } = useTranslation();
 
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
@@ -64,6 +70,21 @@ export function DashboardHeader() {
               <Settings className="mr-2 h-4 w-4" />
               <span>{t('header.settings')}</span>
             </DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <MapPin className="mr-2 h-4 w-4" />
+                <span>{t('header.location')}</span>
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuRadioGroup value={location} onValueChange={(value) => setLocation(value as Location)}>
+                  {locations.map((loc) => (
+                    <DropdownMenuRadioItem key={loc} value={loc}>
+                      {t(`weather.cities.${loc.toLowerCase()}`)}
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
             <DropdownMenuItem>
               <LifeBuoy className="mr-2 h-4 w-4" />
               <span>{t('header.support')}</span>

@@ -1,15 +1,15 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { weatherData } from "@/lib/data";
+import { weatherDataByLocation } from "@/lib/data";
 import { AlertTriangle, Droplets, Wind } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
 import { useTranslation } from "@/providers/i18n-provider";
 import { useEffect, useState } from "react";
 
 export function WeatherWidget() {
-  const { t } = useTranslation();
-  const { current, forecast, advisory } = weatherData;
+  const { t, location } = useTranslation();
+  const { current, forecast, advisory } = weatherDataByLocation[location];
   const CurrentIcon = current.icon;
   const [isClient, setIsClient] = useState(false);
 
