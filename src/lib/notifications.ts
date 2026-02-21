@@ -12,7 +12,7 @@ export type Notification = {
           id: '1',
           title: 'weather.advisory',
           description: 'weather.advisoryText',
-          timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 mins ago
+          timestamp: '2024-07-23T09:30:00.000Z',
           isRead: false,
           type: 'advisory',
       },
@@ -20,7 +20,7 @@ export type Notification = {
           id: '2',
           title: 'notifications.priceAlert.title',
           description: 'notifications.priceAlert.description',
-          timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2).toISOString(), // 2 hours ago
+          timestamp: '2024-07-23T08:00:00.000Z',
           isRead: false,
           type: 'price',
       },
@@ -28,7 +28,7 @@ export type Notification = {
           id: '3',
           title: 'notifications.diseaseDetected.title',
           description: 'notifications.diseaseDetected.description',
-          timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(), // 1 day ago
+          timestamp: '2024-07-22T10:00:00.000Z',
           isRead: true,
           type: 'disease',
       },
