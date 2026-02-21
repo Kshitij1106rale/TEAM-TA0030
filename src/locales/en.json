@@ -25,9 +25,7 @@
         "viewAll": "View all",
         "crop": "Crop",
         "mandi": "Mandi",
-        "price": "Price",
-        "ourProcess": "Our Process",
-        "processDescription": "From diagnosis to profit, a seamless journey."
+        "price": "Price"
     },
     "featureCards": {
         "diseaseDetection": {
@@ -49,7 +47,7 @@
         "wind": "Wind",
         "farmingAdvisory": "Farming Advisory",
         "advisoryText": "Light rain expected on Thursday. Ensure proper drainage for crops to avoid waterlogging.",
-        "city": "Ruralville",
+        "city": "weather.city",
         "conditions": {
             "sunny": "Sunny",
             "partlyCloudy": "Partly Cloudy",
@@ -96,7 +94,7 @@
         "title": "Real-time Mandi Prices",
         "description": "Compare prices across different markets to maximize your profit.",
         "trendTitle": "7-Day Price Trend",
-        "trendDescription": "Price fluctuation for major crops over the last week (₹ per Quintal)."
+        "trendDescription": "Price fluctuation for major crops over the last week (per Quintal)."
     },
     "marketPricesTable": {
         "title": "Detailed Price List",
@@ -106,7 +104,7 @@
         "crop": "Crop",
         "variety": "Variety",
         "mandi": "Mandi",
-        "price": "Price (₹/Qtl)",
+        "price": "Price (per Qtl)",
         "highest": "Highest",
         "noResults": "No results found."
     },
@@ -129,7 +127,7 @@
         "yieldLabel": "Expected Yield (in Quintals)",
         "yieldPlaceholder": "e.g., 50",
         "marketDataLabel": "Current Market Data",
-        "marketDataPlaceholder": "e.g., 'Current mandi price is around ₹2400/quintal, demand is high due to festive season...'",
+        "marketDataPlaceholder": "e.g., 'Current mandi price is around 2400/quintal, demand is high due to festive season...'",
         "estimateButton": "Estimate Profit",
         "calculatingTitle": "Calculating Profit...",
         "calculatingDescription": "Our AI is running the numbers. Please wait a moment.",
@@ -157,5 +155,19 @@
         "Sugarcane": "Sugarcane",
         "Cotton": "Cotton",
         "Soybean": "Soybean"
+    },
+    "notifications": {
+        "title": "Notifications",
+        "markAllAsRead": "Mark all as read",
+        "noNotifications": "No new notifications",
+        "priceAlert": {
+            "title": "Price Alert: Wheat",
+            "description": "Wheat prices in Khanna, Punjab have dropped by 0.5%. View market prices for details."
+        },
+        "diseaseDetected": {
+            "title": "Disease Detected: Tomato",
+            "description": "Potential case of Late Blight detected in your recent upload. Check the report."
+        },
+        "viewAll": "View all notifications"
     }
 }

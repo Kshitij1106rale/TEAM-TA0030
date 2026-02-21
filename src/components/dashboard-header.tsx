@@ -16,10 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Bell, LifeBuoy, LogOut, Settings, User } from "lucide-react";
+import { LifeBuoy, LogOut, Settings, User } from "lucide-react";
 import { Button } from "./ui/button";
 import { SidebarTrigger } from "./ui/sidebar";
 import { useTranslation, type Language } from "@/providers/i18n-provider";
+import { NotificationsDropdown } from "./notifications-dropdown";
 
 export function DashboardHeader() {
   const { t, setLanguage, language } = useTranslation();
@@ -28,7 +29,7 @@ export function DashboardHeader() {
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
       <SidebarTrigger className="md:hidden" />
 
-      <div className="flex w-full items-center justify-end gap-4">
+      <div className="flex w-full items-center justify-end gap-2 md:gap-4">
         <Select value={language} onValueChange={(value) => setLanguage(value as Language)}>
           <SelectTrigger className="w-[120px] focus:ring-accent">
             <SelectValue placeholder={t('header.language')} />
@@ -40,10 +41,7 @@ export function DashboardHeader() {
           </SelectContent>
         </Select>
 
-        <Button variant="ghost" size="icon" className="rounded-full">
-          <Bell className="h-5 w-5 text-muted-foreground" />
-          <span className="sr-only">{t('header.notifications')}</span>
-        </Button>
+        <NotificationsDropdown />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
