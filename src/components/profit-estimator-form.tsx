@@ -33,8 +33,8 @@ export function ProfitEstimatorForm() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             cropType: '',
-            productionCostPerUnit: undefined,
-            expectedYield: undefined,
+            productionCostPerUnit: 0,
+            expectedYield: 0,
             currentMarketData: '',
         },
     });
@@ -62,12 +62,11 @@ export function ProfitEstimatorForm() {
     };
 
     const formatCurrency = (value: number) => {
-        return new Intl.NumberFormat('en-IN', {
-          style: 'currency',
-          currency: 'INR',
+        const formattedValue = new Intl.NumberFormat('en-IN', {
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
         }).format(value);
+        return `₹${formattedValue}`;
     }
 
     return (
@@ -108,7 +107,7 @@ export function ProfitEstimatorForm() {
                       <FormItem>
                         <FormLabel>Cost per Unit (₹)</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="e.g., 1500" {...field} value={field.value ?? ''} />
+                          <Input type="number" placeholder="e.g., 1500" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -122,7 +121,7 @@ export function ProfitEstimatorForm() {
                         <FormItem>
                         <FormLabel>Expected Yield (in Quintals)</FormLabel>
                         <FormControl>
-                            <Input type="number" placeholder="e.g., 50" {...field} value={field.value ?? ''} />
+                            <Input type="number" placeholder="e.g., 50" {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
