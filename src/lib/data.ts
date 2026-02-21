@@ -2,23 +2,23 @@ import { Sun, Cloud, CloudRain, CloudSun, Sprout, Landmark, Calculator } from 'l
 
 export const weatherData = {
   current: {
-    city: 'Ruralville',
+    city: 'weather.city',
     temperature: 28,
-    condition: 'Partly Cloudy',
+    condition: 'weather.conditions.partlyCloudy',
     icon: CloudSun,
     humidity: 65,
     wind: 12,
   },
   forecast: [
-    { day: 'Mon', temp: 29, condition: 'Sunny', icon: Sun },
-    { day: 'Tue', temp: 31, condition: 'Sunny', icon: Sun },
-    { day: 'Wed', temp: 30, condition: 'Partly Cloudy', icon: CloudSun },
-    { day: 'Thu', temp: 27, condition: 'Rain', icon: CloudRain },
-    { day: 'Fri', temp: 29, condition: 'Cloudy', icon: Cloud },
-    { day: 'Sat', temp: 32, condition: 'Sunny', icon: Sun },
-    { day: 'Sun', temp: 31, condition: 'Partly Cloudy', icon: CloudSun },
+    { day: 'days.mon', temp: 29, condition: 'weather.conditions.sunny', icon: Sun },
+    { day: 'days.tue', temp: 31, condition: 'weather.conditions.sunny', icon: Sun },
+    { day: 'days.wed', temp: 30, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+    { day: 'days.thu', temp: 27, condition: 'weather.conditions.rain', icon: CloudRain },
+    { day: 'days.fri', temp: 29, condition: 'weather.conditions.cloudy', icon: Cloud },
+    { day: 'days.sat', temp: 32, condition: 'weather.conditions.sunny', icon: Sun },
+    { day: 'days.sun', temp: 31, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
   ],
-  advisory: 'Light rain expected on Thursday. Ensure proper drainage for crops to avoid waterlogging.'
+  advisory: 'weather.advisoryText'
 };
 
 export const mandiPrices = [

@@ -47,7 +47,24 @@
         "advisory": "Weather Advisory",
         "humidity": "Humidity",
         "wind": "Wind",
-        "farmingAdvisory": "Farming Advisory"
+        "farmingAdvisory": "Farming Advisory",
+        "advisoryText": "Light rain expected on Thursday. Ensure proper drainage for crops to avoid waterlogging.",
+        "city": "Ruralville",
+        "conditions": {
+            "sunny": "Sunny",
+            "partlyCloudy": "Partly Cloudy",
+            "cloudy": "Cloudy",
+            "rain": "Rain"
+        }
+    },
+    "days": {
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
     },
     "diseaseDetectionPage": {
         "title": "AI Disease Detection",

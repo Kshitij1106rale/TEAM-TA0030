@@ -15,7 +15,7 @@ export function WeatherWidget() {
     <Card className="col-span-1 lg:col-span-2">
       <CardHeader>
         <CardTitle className="font-headline">{t('weather.advisory')}</CardTitle>
-        <CardDescription>{current.city}</CardDescription>
+        <CardDescription>{t(current.city)}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid gap-6">
@@ -24,7 +24,7 @@ export function WeatherWidget() {
               <CurrentIcon className="h-16 w-16 text-accent" />
               <div>
                 <p className="text-5xl font-bold">{current.temperature}°C</p>
-                <p className="text-muted-foreground">{current.condition}</p>
+                <p className="text-muted-foreground">{t(current.condition)}</p>
               </div>
             </div>
             <div className="grid flex-1 grid-cols-2 gap-4 sm:ml-auto">
@@ -41,7 +41,7 @@ export function WeatherWidget() {
           <div className="flex justify-between overflow-x-auto gap-4 pb-2 -mx-4 px-4">
             {forecast.map(({ day, temp, icon: Icon }) => (
               <div key={day} className="flex flex-col items-center gap-1 text-center flex-shrink-0">
-                <p className="font-medium text-sm">{day}</p>
+                <p className="font-medium text-sm">{t(day)}</p>
                 <Icon className="h-8 w-8 text-muted-foreground" />
                 <p className="font-semibold">{temp}°C</p>
               </div>
@@ -52,7 +52,7 @@ export function WeatherWidget() {
               <AlertTriangle className="h-4 w-4 text-accent" />
               <AlertTitle className="text-accent font-bold">{t('weather.farmingAdvisory')}</AlertTitle>
               <AlertDescription className="text-accent-foreground/80">
-                {advisory}
+                {t(advisory)}
               </AlertDescription>
             </Alert>
           )}
