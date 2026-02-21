@@ -65,9 +65,11 @@ export function ProfitEstimatorForm() {
 
     const formatNumber = (value: number) => {
         return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
-        }).format(value);
+        }).format(value).replace('₹', '');
     }
 
     return (
@@ -94,7 +96,7 @@ export function ProfitEstimatorForm() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {cropTypes.map(crop => <SelectItem key={crop} value={crop}>{crop}</SelectItem>)}
+                            {cropTypes.map(crop => <SelectItem key={crop} value={crop}>{t(`crops.${crop}`)}</SelectItem>)}
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -108,7 +110,7 @@ export function ProfitEstimatorForm() {
                       <FormItem>
                         <FormLabel>{t('profitEstimatorForm.costLabel')}</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder={t('profitEstimatorForm.costPlaceholder')} {...field} />
+                          <Input type="number" placeholder={t('profitEstimatorForm.costPlaceholder')} {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -122,7 +124,7 @@ export function ProfitEstimatorForm() {
                         <FormItem>
                         <FormLabel>{t('profitEstimatorForm.yieldLabel')}</FormLabel>
                         <FormControl>
-                            <Input type="number" placeholder={t('profitEstimatorForm.yieldPlaceholder')} {...field} />
+                            <Input type="number" placeholder={t('profitEstimatorForm.yieldPlaceholder')} {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>

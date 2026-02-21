@@ -125,5 +125,15 @@
         "recommendations": "Recommendations",
         "awaitingTitle": "Awaiting Estimation",
         "awaitingDescription": "Your profit forecast will appear here."
+    },
+    "crops": {
+        "Wheat": "Wheat",
+        "Rice": "Rice",
+        "Corn": "Corn",
+        "Tomato": "Tomato",
+        "Potato": "Potato",
+        "Sugarcane": "Sugarcane",
+        "Cotton": "Cotton",
+        "Soybean": "Soybean"
     }
 }

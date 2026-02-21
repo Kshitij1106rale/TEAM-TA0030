@@ -125,5 +125,15 @@
         "recommendations": "सिफारिशें",
         "awaitingTitle": "अनुमान की प्रतीक्षा है",
         "awaitingDescription": "आपका लाभ पूर्वानुमान यहां दिखाई देगा।"
+    },
+    "crops": {
+        "Wheat": "गेहूँ",
+        "Rice": "चावल",
+        "Corn": "मक्का",
+        "Tomato": "टमाटर",
+        "Potato": "आलू",
+        "Sugarcane": "गन्ना",
+        "Cotton": "कपास",
+        "Soybean": "सोयाबीन"
     }
 }

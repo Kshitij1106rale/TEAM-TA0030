@@ -125,5 +125,15 @@
         "recommendations": "शिफारसी",
         "awaitingTitle": "अंदाजाची प्रतीक्षा आहे",
         "awaitingDescription": "तुमचा नफा अंदाज येथे दिसेल."
+    },
+    "crops": {
+        "Wheat": "गहू",
+        "Rice": "तांदूळ",
+        "Corn": "मका",
+        "Tomato": "टोमॅटो",
+        "Potato": "बटाटा",
+        "Sugarcane": "ऊस",
+        "Cotton": "कापूस",
+        "Soybean": "सोयाबीन"
     }
 }
