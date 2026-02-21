@@ -8,6 +8,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
 import {
   Select,
@@ -16,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { LifeBuoy, LogOut, Settings, User, MapPin, LocateFixed } from "lucide-react";
+import { LifeBuoy, LogOut, Settings, User, MapPin, LocateFixed, Globe } from "lucide-react";
 import { Button } from "./ui/button";
 import { SidebarTrigger } from "./ui/sidebar";
 import { useTranslation, type Language } from "@/providers/i18n-provider";
@@ -87,13 +91,23 @@ export function DashboardHeader() {
     );
   };
 
+  const handleLanguageChange = (lang: Language) => {
+    setLanguage(lang);
+  };
+
+  const handleLocationChange = (loc: Location) => {
+    setLocation(loc);
+  };
+
+
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
       <SidebarTrigger className="md:hidden" />
 
       <div className="flex w-full items-center justify-end gap-2 md:gap-4">
-        <Select value={language} onValueChange={(value) => setLanguage(value as Language)}>
-          <SelectTrigger className="w-[120px] focus:ring-accent">
+        {/* Desktop selectors */}
+        <Select value={language} onValueChange={(value) => handleLanguageChange(value as Language)}>
+          <SelectTrigger className="w-auto md:w-[120px] focus:ring-accent hidden md:flex">
             <SelectValue placeholder={t('header.language')} />
           </SelectTrigger>
           <SelectContent>
@@ -103,8 +117,8 @@ export function DashboardHeader() {
           </SelectContent>
         </Select>
 
-        <Select value={location} onValueChange={(value) => setLocation(value as Location)}>
-          <SelectTrigger className="w-auto md:w-[150px] focus:ring-accent">
+        <Select value={location} onValueChange={(value) => handleLocationChange(value as Location)}>
+          <SelectTrigger className="w-auto md:w-[150px] focus:ring-accent hidden md:flex">
             <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4" />
                 <SelectValue />
@@ -119,7 +133,7 @@ export function DashboardHeader() {
           </SelectContent>
         </Select>
 
-        <Button variant="ghost" size="icon" onClick={handleLiveLocation} className="rounded-full">
+        <Button variant="ghost" size="icon" onClick={handleLiveLocation} className="rounded-full hidden md:inline-flex">
             <LocateFixed className="h-5 w-5 text-muted-foreground" />
             <span className="sr-only">{t('header.liveLocation')}</span>
         </Button>
@@ -137,6 +151,46 @@ export function DashboardHeader() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
+            {/* Mobile Only Settings */}
+            <div className="md:hidden">
+              <DropdownMenuLabel>{t('header.settings')}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <Globe className="mr-2 h-4 w-4" />
+                  <span>{t('header.language')}</span>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuItem onSelect={() => handleLanguageChange('en')}>English</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => handleLanguageChange('hi')}>हिन्दी</DropdownMenuItem>
+                    <DropdownMenuItem onSelect={() => handleLanguageChange('mr')}>मराठी</DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <MapPin className="mr-2 h-4 w-4" />
+                  <span>{t('header.location')}</span>
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent>
+                    {locations.map((loc) => (
+                      <DropdownMenuItem key={loc} onSelect={() => handleLocationChange(loc as Location)}>
+                        {t(`weather.cities.${loc.toLowerCase()}`)}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+              <DropdownMenuItem onClick={handleLiveLocation}>
+                <LocateFixed className="mr-2 h-4 w-4" />
+                <span>{t('header.liveLocation')}</span>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </div>
+
+            {/* Common Settings */}
             <DropdownMenuLabel>{t('header.myAccount')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
