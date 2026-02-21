@@ -1,3 +1,4 @@
+
 {
     "app": {
         "name": "ऍग्रीप्रेडिक्ट"
@@ -25,7 +26,9 @@
         "viewAll": "सर्व पहा",
         "crop": "पीक",
         "mandi": "बाजार",
-        "price": "किंमत"
+        "price": "किंमत",
+        "ourProcess": "आमची प्रक्रिया",
+        "processDescription": "डेटापासून निर्णयापर्यंत, ऍग्रीप्रेडिक्ट तुमच्या शेतीला कसे सक्षम करते ते पहा."
     },
     "featureCards": {
         "diseaseDetection": {
@@ -88,7 +91,18 @@
         "symptoms": "लक्षणे",
         "recommendations": "शिफारसी",
         "awaitingTitle": "विश्लेषणाची प्रतीक्षा आहे",
-        "awaitingDescription": "तुमचा निदान अहवाल येथे दिसेल."
+        "awaitingDescription": "तुमचा निदान अहवाल येथे दिसेल.",
+        "severities": {
+            "low": "कमी",
+            "medium": "मध्यम",
+            "high": "उच्च",
+            "n/a": "लागू नाही"
+        },
+        "confidences": {
+            "low": "कमी",
+            "medium": "मध्यम",
+            "high": "उच्च"
+        }
     },
     "marketPricesPage": {
         "title": "रिअल-टाइम मंडी भाव",

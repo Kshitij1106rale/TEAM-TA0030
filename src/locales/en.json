@@ -1,3 +1,4 @@
+
 {
     "app": {
         "name": "AgriPredict"
@@ -25,7 +26,9 @@
         "viewAll": "View all",
         "crop": "Crop",
         "mandi": "Mandi",
-        "price": "Price"
+        "price": "Price",
+        "ourProcess": "Our Process",
+        "processDescription": "From data to decision, see how AgriPredict empowers your farming."
     },
     "featureCards": {
         "diseaseDetection": {
@@ -47,7 +50,7 @@
         "wind": "Wind",
         "farmingAdvisory": "Farming Advisory",
         "advisoryText": "Light rain expected on Thursday. Ensure proper drainage for crops to avoid waterlogging.",
-        "city": "weather.city",
+        "city": "Ruralville",
         "conditions": {
             "sunny": "Sunny",
             "partlyCloudy": "Partly Cloudy",
@@ -88,7 +91,18 @@
         "symptoms": "Symptoms",
         "recommendations": "Recommendations",
         "awaitingTitle": "Awaiting Analysis",
-        "awaitingDescription": "Your diagnosis report will appear here."
+        "awaitingDescription": "Your diagnosis report will appear here.",
+        "severities": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High",
+            "n/a": "N/A"
+        },
+        "confidences": {
+            "low": "Low",
+            "medium": "Medium",
+            "high": "High"
+        }
     },
     "marketPricesPage": {
         "title": "Real-time Mandi Prices",

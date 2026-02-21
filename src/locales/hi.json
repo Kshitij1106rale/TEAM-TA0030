@@ -1,3 +1,4 @@
+
 {
     "app": {
         "name": "एग्रीप्रेडिक्ट"
@@ -25,7 +26,9 @@
         "viewAll": "सभी देखें",
         "crop": "फसल",
         "mandi": "मंडी",
-        "price": "कीमत"
+        "price": "कीमत",
+        "ourProcess": "हमारी प्रक्रिया",
+        "processDescription": "डेटा से निर्णय तक, देखें कि एग्रीप्रेडिक्ट आपकी खेती को कैसे सशक्त बनाता है।"
     },
     "featureCards": {
         "diseaseDetection": {
@@ -88,7 +91,18 @@
         "symptoms": "लक्षण",
         "recommendations": "सिफारिशें",
         "awaitingTitle": "विश्लेषण की प्रतीक्षा है",
-        "awaitingDescription": "आपकी निदान रिपोर्ट यहां दिखाई देगी।"
+        "awaitingDescription": "आपकी निदान रिपोर्ट यहां दिखाई देगी।",
+        "severities": {
+            "low": "कम",
+            "medium": "मध्यम",
+            "high": "उच्च",
+            "n/a": "लागू नहीं"
+        },
+        "confidences": {
+            "low": "कम",
+            "medium": "मध्यम",
+            "high": "उच्च"
+        }
     },
     "marketPricesPage": {
         "title": "वास्तविक समय मंडी मूल्य",

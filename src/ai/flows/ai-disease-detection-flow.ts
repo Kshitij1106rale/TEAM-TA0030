@@ -20,6 +20,7 @@ const LeafImageInputSchema = z.object({
     .string()
     .optional()
     .describe('An optional description of the plant or observed symptoms.'),
+  language: z.string().describe('The language for the output (e.g., "English", "Hindi", "Marathi").'),
 });
 export type LeafImageInput = z.infer<typeof LeafImageInputSchema>;
 
@@ -53,16 +54,15 @@ const prompt = ai.definePrompt({
   name: 'aiDiseaseDetectionPrompt',
   input: { schema: LeafImageInputSchema },
   output: { schema: DiseaseDetectionOutputSchema },
-  prompt: `You are an expert agricultural pathologist for the AgriPredict platform. Your task is to analyze an image of a crop leaf and an optional farmer's description to detect potential diseases or abnormalities. Provide a professional, concise, and accurate diagnosis.
+  prompt: `You are an expert agricultural pathologist for the AgriPredict platform. Your task is to analyze an image of a crop leaf and an optional farmer's description to detect potential diseases or abnormalities. Provide a professional, concise, and accurate diagnosis in the requested language: {{{language}}}.
 
 Instructions:
 1. Carefully examine the provided leaf image and description.
 2. Determine if a disease is present. If not, conclude the leaf is healthy.
-3. If a disease is detected, identify its name, list visible symptoms, assess its severity, and provide practical recommendations for treatment and prevention.
-4. If no disease is detected, provide general advice for maintaining plant health.
-5. State your confidence level in the diagnosis.
-
-Use structured bullet points for symptoms and recommendations where appropriate.
+3. If a disease is detected, identify its name, list visible symptoms, assess its severity, and provide practical recommendations for treatment and prevention. All text output (diseaseName, symptoms, recommendations) MUST be in {{{language}}}.
+4. If no disease is detected, provide general advice for maintaining plant health, in {{{language}}}.
+5. The 'severity' and 'confidence' fields must be one of the following English values: 'low', 'medium', 'high', 'N/A'. Do not translate these specific values.
+6. Use structured bullet points for symptoms and recommendations where appropriate.
 
 Description from farmer (if provided): {{{description}}}
 Photo of crop leaf: {{media url=photoDataUri}}`,

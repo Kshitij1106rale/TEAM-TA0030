@@ -15,7 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { Loader2, Upload, Leaf, ShieldCheck, Microscope, Thermometer, Info, BadgeCheck, BarChart, AlertTriangle } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
-import { useTranslation } from '@/providers/i18n-provider';
+import { useTranslation, type Language } from '@/providers/i18n-provider';
 
 const formSchema = z.object({
   image: z.any().refine((files) => files?.length > 0, 'Leaf image is required.'),
@@ -23,7 +23,7 @@ const formSchema = z.object({
 });
 
 export function DiseaseDetectionForm() {
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
     const [result, setResult] = useState<DiseaseDetectionOutput | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -60,6 +60,12 @@ export function DiseaseDetectionForm() {
             setIsLoading(false);
             return;
         }
+        
+        const langMap: Record<Language, string> = {
+            en: 'English',
+            hi: 'Hindi',
+            mr: 'Marathi',
+        };
 
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -69,6 +75,7 @@ export function DiseaseDetectionForm() {
                 const response = await detectDisease({
                     photoDataUri,
                     description: values.description,
+                    language: langMap[language],
                 });
                 setResult(response);
             } catch (e) {
@@ -191,8 +198,8 @@ export function DiseaseDetectionForm() {
                   <div className="bg-muted/50 p-4 rounded-lg">
                     <h3 className="font-semibold text-lg">{result.diseaseName}</h3>
                     <div className="flex items-center gap-4 mt-2 text-sm">
-                        {result.severity !== 'N/A' && <Badge variant="outline" className={severityColors[result.severity.toLowerCase()]}>{t('diseaseDetectionForm.severity')}: {result.severity}</Badge>}
-                        <Badge variant="outline" className={confidenceColors[result.confidence.toLowerCase()]}>{t('diseaseDetectionForm.confidence')}: {result.confidence}</Badge>
+                        {result.severity !== 'N/A' && <Badge variant="outline" className={severityColors[result.severity.toLowerCase()]}>{t('diseaseDetectionForm.severity')}: {t(`diseaseDetectionForm.severities.${result.severity.toLowerCase()}`)}</Badge>}
+                        <Badge variant="outline" className={confidenceColors[result.confidence.toLowerCase()]}>{t('diseaseDetectionForm.confidence')}: {t(`diseaseDetectionForm.confidences.${result.confidence.toLowerCase()}`)}</Badge>
                     </div>
                   </div>
 
