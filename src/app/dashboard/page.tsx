@@ -35,7 +35,7 @@ function MarketSnapshotWidget() {
           <TableBody>
             {topPrices.map((item) => (
               <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.crop}</TableCell>
+                <TableCell className="font-medium">{t(`crops.${item.crop}`)}</TableCell>
                 <TableCell className="text-muted-foreground">{item.mandi.split(',')[0]}</TableCell>
                 <TableCell className="text-right font-semibold">
                     <div className="flex items-center justify-end gap-2">

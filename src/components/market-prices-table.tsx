@@ -51,7 +51,7 @@ export function MarketPricesTable() {
                         <SelectContent>
                             <SelectItem value="all">{t('marketPricesTable.allCrops')}</SelectItem>
                             {[...new Set(mandiPrices.map(p => p.crop))].map(crop => (
-                                <SelectItem key={crop} value={crop}>{crop}</SelectItem>
+                                <SelectItem key={crop} value={crop}>{t(`crops.${crop}`)}</SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
@@ -72,7 +72,7 @@ export function MarketPricesTable() {
                             {filteredPrices.map((item) => (
                                 <TableRow key={item.id} className={highestPricesByCrop.get(item.crop)?.id === item.id ? 'bg-primary/5' : ''}>
                                     <TableCell className="font-medium flex items-center gap-2">
-                                        {item.crop}
+                                        {t(`crops.${item.crop}`)}
                                         {highestPricesByCrop.get(item.crop)?.id === item.id && (
                                             <Badge variant="secondary" className="bg-accent/80 text-accent-foreground text-xs">{t('marketPricesTable.highest')}</Badge>
                                         )}
