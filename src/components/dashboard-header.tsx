@@ -16,10 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { LifeBuoy, LogOut, Settings, User, MapPin, LocateFixed } from "lucide-react";
+import { LifeBuoy, LogOut, Settings, User, MapPin, LocateFixed, Globe } from "lucide-react";
 import { Button } from "./ui/button";
 import { SidebarTrigger } from "./ui/sidebar";
-import { useTranslation } from "@/providers/i18n-provider";
+import { useTranslation, type Language } from "@/providers/i18n-provider";
 import { NotificationsDropdown } from "./notifications-dropdown";
 import { locations, weatherDataByLocation, type Location } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
@@ -38,7 +38,7 @@ function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
 }
 
 export function DashboardHeader() {
-  const { t, setLocation, location } = useTranslation();
+  const { t, setLocation, location, language, setLanguage } = useTranslation();
   const { toast } = useToast();
 
   const handleLiveLocation = () => {
@@ -91,6 +91,10 @@ export function DashboardHeader() {
     setLocation(loc);
   };
 
+  const handleLanguageChange = (lang: Language) => {
+    setLanguage(lang);
+  };
+
 
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
@@ -119,6 +123,20 @@ export function DashboardHeader() {
             <span className="sr-only">{t('header.liveLocation')}</span>
         </Button>
 
+        <Select value={language} onValueChange={(value) => handleLanguageChange(value as Language)}>
+          <SelectTrigger className="w-auto md:w-[120px] focus:ring-accent hidden md:flex">
+             <div className="flex items-center gap-2">
+                <Globe className="h-4 w-4" />
+                <SelectValue />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="en">English</SelectItem>
+            <SelectItem value="hi">हिन्दी</SelectItem>
+            <SelectItem value="mr">मराठी</SelectItem>
+          </SelectContent>
+        </Select>
+
         <NotificationsDropdown />
 
         <DropdownMenu>
@@ -145,6 +163,12 @@ export function DashboardHeader() {
                 <LocateFixed className="mr-2 h-4 w-4" />
                 <span>{t('header.liveLocation')}</span>
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>{t('header.language')}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onSelect={() => handleLanguageChange('en')}>English</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => handleLanguageChange('hi')}>हिन्दी</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => handleLanguageChange('mr')}>मराठी</DropdownMenuItem>
               <DropdownMenuSeparator />
             </div>
 

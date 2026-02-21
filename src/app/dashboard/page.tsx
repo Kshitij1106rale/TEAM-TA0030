@@ -6,17 +6,10 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { featureCards, mandiPrices } from '@/lib/data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { ArrowUp, ArrowDown, Globe } from 'lucide-react';
+import { ArrowUp, ArrowDown } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { WeatherWidget } from '@/components/weather-widget';
-import { useTranslation, type Language } from '@/providers/i18n-provider';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useTranslation } from '@/providers/i18n-provider';
 
 function MarketSnapshotWidget() {
   const { t } = useTranslation();
@@ -64,12 +57,8 @@ function MarketSnapshotWidget() {
 }
 
 export default function DashboardPage() {
-    const { t, language, setLanguage } = useTranslation();
+    const { t } = useTranslation();
     const processFlowImage = PlaceHolderImages.find(img => img.id === 'process-flow');
-
-    const handleLanguageChange = (lang: Language) => {
-        setLanguage(lang);
-    };
 
     return (
         <div className="space-y-6 animate-fade-in">
@@ -77,19 +66,6 @@ export default function DashboardPage() {
                 <div className="flex-1">
                     <h1 className="text-3xl font-bold tracking-tight font-headline">{t('dashboardPage.welcome')}</h1>
                     <p className="text-muted-foreground">{t('dashboardPage.description')}</p>
-                </div>
-                <div className="flex items-center gap-2">
-                    <Globe className="h-5 w-5 text-muted-foreground" />
-                    <Select value={language} onValueChange={(value) => handleLanguageChange(value as Language)}>
-                      <SelectTrigger className="w-full sm:w-[150px] focus:ring-accent">
-                         <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="en">English</SelectItem>
-                        <SelectItem value="hi">हिन्दी</SelectItem>
-                        <SelectItem value="mr">मराठी</SelectItem>
-                      </SelectContent>
-                    </Select>
                 </div>
             </div>
 
