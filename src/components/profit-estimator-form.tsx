@@ -11,7 +11,7 @@ import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
-import { Loader2, BrainCircuit, BarChart, TrendingUp, IndianRupee, ListChecks, AlertTriangle, BadgeCheck } from 'lucide-react';
+import { Loader2, BrainCircuit, BarChart, TrendingUp, ListChecks, AlertTriangle, BadgeCheck } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { cropTypes } from '@/lib/data';
 import { Badge } from './ui/badge';
@@ -180,7 +180,7 @@ export function ProfitEstimatorForm() {
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-2 gap-4 text-center">
                     <div className="bg-muted/50 p-4 rounded-lg">
-                        <h4 className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2"><IndianRupee className="h-4 w-4"/>Estimated Profit</h4>
+                        <h4 className="text-sm font-medium text-muted-foreground">Estimated Profit</h4>
                         <div className="text-3xl font-bold text-primary">{formatCurrency(result.estimatedProfit)}</div>
                     </div>
                     <div className="bg-muted/50 p-4 rounded-lg">
