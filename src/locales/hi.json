@@ -1,0 +1,52 @@
+{
+    "app": {
+        "name": "एग्रीविजन एआई"
+    },
+    "nav": {
+        "dashboard": "डैशबोर्ड",
+        "diseaseDetection": "रोग की पहचान",
+        "marketPrices": "बाजार मूल्य",
+        "profitEstimator": "लाभ अनुमानक"
+    },
+    "header": {
+        "language": "भाषा",
+        "notifications": "सूचनाएं टॉगल करें",
+        "userMenu": "उपयोगकर्ता मेनू टॉगल करें",
+        "myAccount": "मेरा खाता",
+        "profile": "प्रोफ़ाइल",
+        "settings": "सेटिंग्स",
+        "support": "सहायता",
+        "logout": "लॉग आउट"
+    },
+    "dashboardPage": {
+        "welcome": "नमस्ते, किसान!",
+        "description": "यह आज आपके खेत का अवलोकन है।",
+        "marketSnapshot": "बाजार स्नैपशॉट",
+        "viewAll": "सभी देखें",
+        "crop": "फसल",
+        "mandi": "मंडी",
+        "price": "कीमत (₹/क्विंटल)",
+        "ourProcess": "हमारी प्रक्रिया",
+        "processDescription": "निदान से लेकर लाभ तक, एक सहज यात्रा।"
+    },
+    "featureCards": {
+        "diseaseDetection": {
+            "title": "एआई रोग पहचान",
+            "description": "फसल रोगों का तत्काल निदान पाने के लिए एक पत्ते की छवि अपलोड करें।"
+        },
+        "marketPrices": {
+            "title": "बाजार मूल्य अंतर्दृष्टि",
+            "description": "अपनी उपज को सर्वोत्तम दर पर बेचने के लिए वास्तविक समय की मंडी कीमतों की तुलना करें।"
+        },
+        "profitForecasting": {
+            "title": "लाभ पूर्वानुमान",
+            "description": "हमारे एआई इंजन के साथ कटाई से पहले अपने संभावित मुनाफे का अनुमान लगाएं।"
+        }
+    },
+    "weather": {
+        "advisory": "मौसम सलाह",
+        "humidity": "नमी",
+        "wind": "हवा",
+        "farmingAdvisory": "खेती सलाहकार"
+    }
+}

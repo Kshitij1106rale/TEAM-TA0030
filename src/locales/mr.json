@@ -1,0 +1,52 @@
+{
+    "app": {
+        "name": "ऍग्रिव्हिजन एआय"
+    },
+    "nav": {
+        "dashboard": "डॅशबोर्ड",
+        "diseaseDetection": "रोग निदान",
+        "marketPrices": "बाजार भाव",
+        "profitEstimator": "नफा अंदाजक"
+    },
+    "header": {
+        "language": "भाषा",
+        "notifications": "सूचना टॉगल करा",
+        "userMenu": "वापरकर्ता मेनू टॉगल करा",
+        "myAccount": "माझे खाते",
+        "profile": "प्रोफाइल",
+        "settings": "सेटिंग्ज",
+        "support": "समर्थन",
+        "logout": "लॉग आउट करा"
+    },
+    "dashboardPage": {
+        "welcome": "नमस्कार, शेतकरी!",
+        "description": "आज तुमच्या शेताचे अवलोकन येथे आहे.",
+        "marketSnapshot": "बाजार स्नॅपशॉट",
+        "viewAll": "सर्व पहा",
+        "crop": "पीक",
+        "mandi": "बाजार",
+        "price": "किंमत (₹/क्विंटल)",
+        "ourProcess": "आमची प्रक्रिया",
+        "processDescription": "निदानापासून नफ्यापर्यंत, एक अखंड प्रवास."
+    },
+    "featureCards": {
+        "diseaseDetection": {
+            "title": "एआय रोग निदान",
+            "description": "पिकांच्या रोगांचे त्वरित निदान मिळविण्यासाठी पानाचे छायाचित्र अपलोड करा."
+        },
+        "marketPrices": {
+            "title": "बाजारभाव अंतर्दृष्टी",
+            "description": "तुमचे उत्पादन सर्वोत्तम दरात विकण्यासाठी रिअल-टाइम मंडी दरांची तुलना करा."
+        },
+        "profitForecasting": {
+            "title": "नफा अंदाज",
+            "description": "आमच्या एआय इंजिनसह कापणीपूर्वी तुमच्या संभाव्य नफ्याचा अंदाज घ्या."
+        }
+    },
+    "weather": {
+        "advisory": "हवामान सल्ला",
+        "humidity": "आर्द्रता",
+        "wind": "वारा",
+        "farmingAdvisory": "शेती सल्ला"
+    }
+}

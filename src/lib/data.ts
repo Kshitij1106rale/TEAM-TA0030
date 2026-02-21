@@ -44,21 +44,21 @@ export const priceTrends = [
 ];
 
 export const featureCards = [
-    { 
-        title: "AI Disease Detection", 
-        description: "Upload a leaf image to get an instant diagnosis of crop diseases.",
+    {
+        titleKey: "featureCards.diseaseDetection.title",
+        descriptionKey: "featureCards.diseaseDetection.description",
         icon: Sprout,
         link: "/dashboard/disease-detection",
     },
-    { 
-        title: "Market Price Insights", 
-        description: "Compare real-time mandi prices to sell your produce at the best rate.",
+    {
+        titleKey: "featureCards.marketPrices.title",
+        descriptionKey: "featureCards.marketPrices.description",
         icon: Landmark,
         link: "/dashboard/market-prices",
     },
-    { 
-        title: "Profit Forecasting", 
-        description: "Estimate your potential profits before harvest with our AI engine.",
+    {
+        titleKey: "featureCards.profitForecasting.title",
+        descriptionKey: "featureCards.profitForecasting.description",
         icon: Calculator,
         link: "/dashboard/profit-estimator",
     },

@@ -1,16 +1,20 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { weatherData } from "@/lib/data";
 import { AlertTriangle, Droplets, Wind } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
+import { useTranslation } from "@/providers/i18n-provider";
 
 export function WeatherWidget() {
+  const { t } = useTranslation();
   const { current, forecast, advisory } = weatherData;
   const CurrentIcon = current.icon;
 
   return (
     <Card className="col-span-1 lg:col-span-2">
       <CardHeader>
-        <CardTitle className="font-headline">Weather Advisory</CardTitle>
+        <CardTitle className="font-headline">{t('weather.advisory')}</CardTitle>
         <CardDescription>{current.city}</CardDescription>
       </CardHeader>
       <CardContent>
@@ -26,11 +30,11 @@ export function WeatherWidget() {
             <div className="grid flex-1 grid-cols-2 gap-4 sm:ml-auto">
               <div className="flex items-center gap-2 justify-center sm:justify-start">
                 <Droplets className="h-5 w-5 text-muted-foreground" />
-                <span className="font-medium">{current.humidity}% Humidity</span>
+                <span className="font-medium">{current.humidity}% {t('weather.humidity')}</span>
               </div>
               <div className="flex items-center gap-2 justify-center sm:justify-start">
                 <Wind className="h-5 w-5 text-muted-foreground" />
-                <span className="font-medium">{current.wind} km/h Wind</span>
+                <span className="font-medium">{current.wind} km/h {t('weather.wind')}</span>
               </div>
             </div>
           </div>
@@ -46,7 +50,7 @@ export function WeatherWidget() {
           {advisory && (
             <Alert className="bg-accent/10 border-accent/20">
               <AlertTriangle className="h-4 w-4 text-accent" />
-              <AlertTitle className="text-accent font-bold">Farming Advisory</AlertTitle>
+              <AlertTitle className="text-accent font-bold">{t('weather.farmingAdvisory')}</AlertTitle>
               <AlertDescription className="text-accent-foreground/80">
                 {advisory}
               </AlertDescription>

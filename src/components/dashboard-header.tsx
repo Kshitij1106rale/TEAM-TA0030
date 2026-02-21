@@ -1,3 +1,5 @@
+'use client';
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -17,16 +19,19 @@ import {
 import { Bell, LifeBuoy, LogOut, Settings, User } from "lucide-react";
 import { Button } from "./ui/button";
 import { SidebarTrigger } from "./ui/sidebar";
+import { useTranslation, type Language } from "@/providers/i18n-provider";
 
 export function DashboardHeader() {
+  const { t, setLanguage, language } = useTranslation();
+
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
       <SidebarTrigger className="md:hidden" />
 
       <div className="flex w-full items-center justify-end gap-4">
-        <Select defaultValue="en">
+        <Select value={language} onValueChange={(value) => setLanguage(value as Language)}>
           <SelectTrigger className="w-[120px] focus:ring-accent">
-            <SelectValue placeholder="Language" />
+            <SelectValue placeholder={t('header.language')} />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="en">English</SelectItem>
@@ -37,7 +42,7 @@ export function DashboardHeader() {
 
         <Button variant="ghost" size="icon" className="rounded-full">
           <Bell className="h-5 w-5 text-muted-foreground" />
-          <span className="sr-only">Toggle notifications</span>
+          <span className="sr-only">{t('header.notifications')}</span>
         </Button>
 
         <DropdownMenu>
@@ -47,28 +52,28 @@ export function DashboardHeader() {
                 <AvatarImage src="https://picsum.photos/seed/user/100/100" data-ai-hint="person portrait" alt="User" />
                 <AvatarFallback>U</AvatarFallback>
               </Avatar>
-              <span className="sr-only">Toggle user menu</span>
+              <span className="sr-only">{t('header.userMenu')}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('header.myAccount')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
+              <span>{t('header.profile')}</span>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
+              <span>{t('header.settings')}</span>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <LifeBuoy className="mr-2 h-4 w-4" />
-              <span>Support</span>
+              <span>{t('header.support')}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
+              <span>{t('header.logout')}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

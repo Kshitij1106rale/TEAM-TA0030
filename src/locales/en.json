@@ -1,0 +1,52 @@
+{
+    "app": {
+        "name": "AgriVision AI"
+    },
+    "nav": {
+        "dashboard": "Dashboard",
+        "diseaseDetection": "Disease Detection",
+        "marketPrices": "Market Prices",
+        "profitEstimator": "Profit Estimator"
+    },
+    "header": {
+        "language": "Language",
+        "notifications": "Toggle notifications",
+        "userMenu": "Toggle user menu",
+        "myAccount": "My Account",
+        "profile": "Profile",
+        "settings": "Settings",
+        "support": "Support",
+        "logout": "Log out"
+    },
+    "dashboardPage": {
+        "welcome": "Welcome, Farmer!",
+        "description": "Here's your farm's overview for today.",
+        "marketSnapshot": "Market Snapshot",
+        "viewAll": "View all",
+        "crop": "Crop",
+        "mandi": "Mandi",
+        "price": "Price (₹/Qtl)",
+        "ourProcess": "Our Process",
+        "processDescription": "From diagnosis to profit, a seamless journey."
+    },
+    "featureCards": {
+        "diseaseDetection": {
+            "title": "AI Disease Detection",
+            "description": "Upload a leaf image to get an instant diagnosis of crop diseases."
+        },
+        "marketPrices": {
+            "title": "Market Price Insights",
+            "description": "Compare real-time mandi prices to sell your produce at the best rate."
+        },
+        "profitForecasting": {
+            "title": "Profit Forecasting",
+            "description": "Estimate your potential profits before harvest with our AI engine."
+        }
+    },
+    "weather": {
+        "advisory": "Weather Advisory",
+        "humidity": "Humidity",
+        "wind": "Wind",
+        "farmingAdvisory": "Farming Advisory"
+    }
+}
