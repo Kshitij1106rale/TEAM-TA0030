@@ -99,12 +99,12 @@ export function DashboardHeader() {
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center justify-between gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
         <div className="flex items-center gap-4">
-            <SidebarTrigger className="md:hidden" />
+            <SidebarTrigger className="lg:hidden" />
         </div>
 
       <div className="flex items-center gap-4">
         {/* Desktop selectors */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-4">
             <Select value={location} onValueChange={(value) => handleLocationChange(value as Location)}>
             <SelectTrigger className="w-auto md:w-[150px] focus:ring-accent">
                 <div className="flex items-center gap-2">
@@ -141,9 +141,9 @@ export function DashboardHeader() {
             </Select>
         </div>
 
-        <div className="hidden md:block h-6 w-px bg-border"></div>
+        <div className="hidden lg:block h-6 w-px bg-border"></div>
 
-        <div className="flex items-center gap-2 md:gap-4">
+        <div className="flex items-center gap-2 lg:gap-4">
             <NotificationsDropdown />
 
             <DropdownMenu>
@@ -158,7 +158,7 @@ export function DashboardHeader() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
                 {/* Mobile Only Settings */}
-                <div className="md:hidden">
+                <div className="lg:hidden">
                 <DropdownMenuLabel>{t('header.location')}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 {locations.map((loc) => (
