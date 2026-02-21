@@ -41,16 +41,26 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [language, setLanguage] = useState<Language>('en');
   const [location, setLocation] = useState<Location>(locations[0]);
 
-  const t = useCallback((key: string): string => {
+  const t = useCallback((key: string, options?: { [key: string]: string | number }): string => {
     const fallbackLang = 'en';
     
-    let translated = deepValue(translations[language], key);
+    let template = deepValue(translations[language], key);
     
-    if (!translated) {
-        translated = deepValue(translations[fallbackLang], key);
+    if (!template) {
+        template = deepValue(translations[fallbackLang], key);
     }
 
-    return translated || key;
+    if (typeof template !== 'string') {
+        return key;
+    }
+
+    if (options) {
+        return template.replace(/\{(\w+)\}/g, (placeholderWithBraces: string, placeholderKey: string) => {
+            return options[placeholderKey] !== undefined ? String(options[placeholderKey]) : placeholderWithBraces;
+        });
+    }
+
+    return template;
   }, [language]);
   
   const value = useMemo(() => ({ language, setLanguage, location, setLocation, t }), [language, location, t]);

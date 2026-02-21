@@ -21,15 +21,76 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { LifeBuoy, LogOut, Settings, User, MapPin } from "lucide-react";
+import { LifeBuoy, LogOut, Settings, User, MapPin, LocateFixed } from "lucide-react";
 import { Button } from "./ui/button";
 import { SidebarTrigger } from "./ui/sidebar";
 import { useTranslation, type Language } from "@/providers/i18n-provider";
 import { NotificationsDropdown } from "./notifications-dropdown";
-import { locations, type Location } from "@/lib/data";
+import { locations, weatherDataByLocation, type Location } from "@/lib/data";
+import { useToast } from "@/hooks/use-toast";
+
+function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+  const R = 6371; // Radius of the earth in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const d = R * c; // Distance in km
+  return d;
+}
 
 export function DashboardHeader() {
   const { t, setLanguage, language, location, setLocation } = useTranslation();
+  const { toast } = useToast();
+
+  const handleLiveLocation = () => {
+    if (!navigator.geolocation) {
+      toast({
+        variant: "destructive",
+        title: t('notifications.locationError.title'),
+        description: "Geolocation is not supported by your browser.",
+      });
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        
+        let closestCity: Location | null = null;
+        let minDistance = Infinity;
+
+        for (const loc of locations) {
+            const cityData = weatherDataByLocation[loc];
+            if (cityData.coords) {
+                const distance = getDistance(latitude, longitude, cityData.coords.lat, cityData.coords.lon);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestCity = loc;
+                }
+            }
+        }
+
+        if (closestCity) {
+            setLocation(closestCity);
+            toast({
+                title: t('notifications.locationSuccess.title'),
+                description: t('notifications.locationSuccess.description', { location: t(`weather.cities.${closestCity.toLowerCase()}`) }),
+            });
+        }
+      },
+      () => {
+        toast({
+            variant: "destructive",
+            title: t('notifications.locationError.title'),
+            description: t('notifications.locationError.description'),
+        });
+      }
+    );
+  };
 
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
@@ -69,6 +130,10 @@ export function DashboardHeader() {
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
               <span>{t('header.settings')}</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={handleLiveLocation}>
+              <LocateFixed className="mr-2 h-4 w-4" />
+              <span>{t('header.liveLocation')}</span>
             </DropdownMenuItem>
             <DropdownMenuSub>
               <DropdownMenuSubTrigger>

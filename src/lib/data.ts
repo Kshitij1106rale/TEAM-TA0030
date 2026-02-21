@@ -5,6 +5,7 @@ export type Location = typeof locations[number];
 
 export const weatherDataByLocation = {
   'Delhi': {
+    coords: { lat: 28.7041, lon: 77.1025 },
     current: {
       city: 'weather.cities.delhi',
       temperature: 32,
@@ -25,6 +26,7 @@ export const weatherDataByLocation = {
     advisory: 'weather.advisories.delhi'
   },
   'Mumbai': {
+    coords: { lat: 19.0760, lon: 72.8777 },
     current: {
       city: 'weather.cities.mumbai',
       temperature: 29,
@@ -45,6 +47,7 @@ export const weatherDataByLocation = {
     advisory: 'weather.advisories.mumbai'
   },
   'Bangalore': {
+    coords: { lat: 12.9716, lon: 77.5946 },
     current: {
       city: 'weather.cities.bangalore',
       temperature: 24,

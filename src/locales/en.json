@@ -12,6 +12,7 @@
     "header": {
         "language": "Language",
         "location": "Location",
+        "liveLocation": "Use Live Location",
         "notifications": "Toggle notifications",
         "userMenu": "Toggle user menu",
         "myAccount": "My Account",
@@ -191,6 +192,14 @@
             "title": "Disease Detected: Tomato",
             "description": "Potential case of Late Blight detected in your recent upload. Check the report."
         },
-        "viewAll": "View all notifications"
+        "viewAll": "View all notifications",
+        "locationSuccess": {
+            "title": "Location Set",
+            "description": "Weather is now showing for your closest city: {location}."
+        },
+        "locationError": {
+            "title": "Unable to Access Location",
+            "description": "Please grant location permission in your browser to use this feature."
+        }
     }
 }
