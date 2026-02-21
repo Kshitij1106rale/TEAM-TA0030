@@ -31,6 +31,12 @@ export function ProfitEstimatorForm() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        defaultValues: {
+            cropType: '',
+            productionCostPerUnit: '' as any,
+            expectedYield: '' as any,
+            currentMarketData: '',
+        },
     });
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {

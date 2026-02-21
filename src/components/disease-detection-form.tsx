@@ -29,6 +29,9 @@ export function DiseaseDetectionForm() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
+        defaultValues: {
+            description: '',
+        },
     });
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
