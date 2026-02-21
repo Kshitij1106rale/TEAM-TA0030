@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Providers } from '@/components/providers';
 
 export const metadata: Metadata = {
-  title: 'AgriVision AI Platform',
+  title: 'AgriPredict',
   description: 'AI-powered smart farming intelligence for data-driven decisions.',
 };
 

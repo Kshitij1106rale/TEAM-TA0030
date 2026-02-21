@@ -53,7 +53,7 @@ const prompt = ai.definePrompt({
   name: 'aiDiseaseDetectionPrompt',
   input: { schema: LeafImageInputSchema },
   output: { schema: DiseaseDetectionOutputSchema },
-  prompt: `You are an expert agricultural pathologist for the AgriVision AI platform. Your task is to analyze an image of a crop leaf and an optional farmer's description to detect potential diseases or abnormalities. Provide a professional, concise, and accurate diagnosis.
+  prompt: `You are an expert agricultural pathologist for the AgriPredict platform. Your task is to analyze an image of a crop leaf and an optional farmer's description to detect potential diseases or abnormalities. Provide a professional, concise, and accurate diagnosis.
 
 Instructions:
 1. Carefully examine the provided leaf image and description.

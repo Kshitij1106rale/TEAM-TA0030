@@ -1,6 +1,6 @@
 {
     "app": {
-        "name": "AgriVision AI"
+        "name": "AgriPredict"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -25,7 +25,7 @@
         "viewAll": "View all",
         "crop": "Crop",
         "mandi": "Mandi",
-        "price": "Price (₹/Qtl)",
+        "price": "Price",
         "ourProcess": "Our Process",
         "processDescription": "From diagnosis to profit, a seamless journey."
     },
