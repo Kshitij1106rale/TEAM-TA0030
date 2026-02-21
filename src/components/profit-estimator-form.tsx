@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { cropTypes } from '@/lib/data';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
-import { useTranslation } from '@/providers/i18n-provider';
+import { useTranslation, type Language } from '@/providers/i18n-provider';
 
 const formSchema = z.object({
   cropType: z.string().min(1, 'Crop type is required.'),
@@ -26,7 +26,7 @@ const formSchema = z.object({
 });
 
 export function ProfitEstimatorForm() {
-    const { t } = useTranslation();
+    const { t, language } = useTranslation();
     const [result, setResult] = useState<ProfitEstimationOutput | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -46,8 +46,17 @@ export function ProfitEstimatorForm() {
         setError(null);
         setResult(null);
 
+        const langMap: Record<Language, string> = {
+            en: 'English',
+            hi: 'Hindi',
+            mr: 'Marathi',
+        };
+
         try {
-            const response = await estimateProfit(values);
+            const response = await estimateProfit({
+                ...values,
+                language: langMap[language]
+            });
             setResult(response);
         } catch (e) {
             setError(t('profitEstimatorForm.errorEstimating'));
@@ -65,11 +74,7 @@ export function ProfitEstimatorForm() {
 
     const formatNumber = (value: number) => {
         return new Intl.NumberFormat('en-IN', {
-            style: 'currency',
-            currency: 'INR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-        }).format(value).replace('₹', '');
+        }).format(value);
     }
 
     return (
@@ -189,7 +194,7 @@ export function ProfitEstimatorForm() {
                         <h4 className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2"><TrendingUp className="h-4 w-4"/>{t('profitEstimatorForm.profitOutlook')}</h4>
                         <div className="text-3xl font-bold text-center">
                             <Badge variant="outline" className={`text-lg ${outlookColors[result.profitOutlook.toLowerCase()]}`}>
-                                {result.profitOutlook}
+                                {t(`profitEstimatorForm.outlooks.${result.profitOutlook.toLowerCase()}`)}
                             </Badge>
                         </div>
                     </div>

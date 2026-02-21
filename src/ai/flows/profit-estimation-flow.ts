@@ -16,6 +16,7 @@ const ProfitEstimationInputSchema = z.object({
   productionCostPerUnit: z.number().positive().describe('The estimated cost to produce one unit of the crop.'),
   expectedYield: z.number().positive().describe('The expected total yield of the crop in units.'),
   currentMarketData: z.string().describe('A detailed description of current market conditions relevant to the crop, including prices, demand, and trends.'),
+  language: z.string().describe('The language for the output (e.g., "English", "Hindi", "Marathi").'),
 });
 export type ProfitEstimationInput = z.infer<typeof ProfitEstimationInputSchema>;
 
@@ -37,10 +38,12 @@ const profitEstimationPrompt = ai.definePrompt({
   name: 'profitEstimationPrompt',
   input: {schema: ProfitEstimationInputSchema},
   output: {schema: ProfitEstimationOutputSchema},
-  prompt: `You are an expert agricultural financial analyst specializing in crop profitability.
+  prompt: `You are an expert agricultural financial analyst specializing in crop profitability for the AgriPredict platform.
 Your task is to provide a comprehensive profit estimate and strategic recommendations for farmers based on the provided information.
 
 IMPORTANT INSTRUCTIONS:
+- Generate the 'recommendations' content in the language specified by the 'language' input field ({{{language}}}).
+- The 'profitOutlook' field must be one of the following English words: "Strong", "Moderate", or "Challenging".
 - Generate industry-level, executive, and professional content.
 - Keep content concise but powerful.
 - Avoid student-style language.
@@ -54,7 +57,7 @@ Production Cost Per Unit: {{{productionCostPerUnit}}}
 Expected Yield: {{{expectedYield}}}
 Current Market Data: {{{currentMarketData}}}
 
-Based on this information, calculate the estimated net profit and provide a professional profit outlook, along with actionable recommendations to optimize profitability.
+Based on this information, calculate the estimated net profit and provide a professional profit outlook, along with actionable recommendations in the requested language.
 `,
 });
 

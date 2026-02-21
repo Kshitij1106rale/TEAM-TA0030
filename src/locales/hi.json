@@ -141,7 +141,12 @@
         "profitOutlook": "लाभ का दृष्टिकोण",
         "recommendations": "सिफारिशें",
         "awaitingTitle": "अनुमान की प्रतीक्षा है",
-        "awaitingDescription": "आपका लाभ पूर्वानुमान यहां दिखाई देगा।"
+        "awaitingDescription": "आपका लाभ पूर्वानुमान यहां दिखाई देगा।",
+        "outlooks": {
+            "strong": "मजबूत",
+            "moderate": "मध्यम",
+            "challenging": "चुनौतीपूर्ण"
+        }
     },
     "crops": {
         "Wheat": "गेहूँ",

@@ -141,7 +141,12 @@
         "profitOutlook": "Profit Outlook",
         "recommendations": "Recommendations",
         "awaitingTitle": "Awaiting Estimation",
-        "awaitingDescription": "Your profit forecast will appear here."
+        "awaitingDescription": "Your profit forecast will appear here.",
+        "outlooks": {
+            "strong": "Strong",
+            "moderate": "Moderate",
+            "challenging": "Challenging"
+        }
     },
     "crops": {
         "Wheat": "Wheat",

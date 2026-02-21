@@ -141,7 +141,12 @@
         "profitOutlook": "नफ्याचा दृष्टिकोन",
         "recommendations": "शिफारसी",
         "awaitingTitle": "अंदाजाची प्रतीक्षा आहे",
-        "awaitingDescription": "तुमचा नफा अंदाज येथे दिसेल."
+        "awaitingDescription": "तुमचा नफा अंदाज येथे दिसेल.",
+        "outlooks": {
+            "strong": "मजबूत",
+            "moderate": "मध्यम",
+            "challenging": "आव्हानात्मक"
+        }
     },
     "crops": {
         "Wheat": "गहू",
