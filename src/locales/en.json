@@ -54,12 +54,18 @@
         "advisories": {
             "delhi": "High temperatures expected. Ensure adequate irrigation for crops.",
             "mumbai": "Heavy rainfall predicted. Check for waterlogging in fields and ensure proper drainage.",
-            "bangalore": "Cloudy with intermittent showers. Good time for planting new crops."
+            "bangalore": "Cloudy with intermittent showers. Good time for planting new crops.",
+            "kolkata": "High humidity and chances of rain. Monitor for fungal diseases.",
+            "chennai": "Strong sun and high temperatures. Protect sensitive crops and manage water.",
+            "pune": "Pleasant weather with a chance of light rain. Ideal for sowing and transplanting."
         },
         "cities": {
             "delhi": "Delhi",
             "mumbai": "Mumbai",
-            "bangalore": "Bangalore"
+            "bangalore": "Bangalore",
+            "kolkata": "Kolkata",
+            "chennai": "Chennai",
+            "pune": "Pune"
         },
         "conditions": {
             "sunny": "Sunny",

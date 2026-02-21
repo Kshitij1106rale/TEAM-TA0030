@@ -1,6 +1,6 @@
 import { Sun, Cloud, CloudRain, CloudSun, Sprout, Landmark, Calculator } from 'lucide-react';
 
-export const locations = ['Delhi', 'Mumbai', 'Bangalore'] as const;
+export const locations = ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai', 'Pune'] as const;
 export type Location = typeof locations[number];
 
 export const weatherDataByLocation = {
@@ -66,6 +66,69 @@ export const weatherDataByLocation = {
       { day: 'days.sun', temp: 26, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
     ],
     advisory: 'weather.advisories.bangalore'
+  },
+  'Kolkata': {
+    coords: { lat: 22.5726, lon: 88.3639 },
+    current: {
+      city: 'weather.cities.kolkata',
+      temperature: 31,
+      condition: 'weather.conditions.cloudy',
+      icon: Cloud,
+      humidity: 80,
+      wind: 12,
+    },
+    forecast: [
+      { day: 'days.mon', temp: 32, condition: 'weather.conditions.rain', icon: CloudRain },
+      { day: 'days.tue', temp: 31, condition: 'weather.conditions.cloudy', icon: Cloud },
+      { day: 'days.wed', temp: 33, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+      { day: 'days.thu', temp: 32, condition: 'weather.conditions.rain', icon: CloudRain },
+      { day: 'days.fri', temp: 30, condition: 'weather.conditions.rain', icon: CloudRain },
+      { day: 'days.sat', temp: 31, condition: 'weather.conditions.cloudy', icon: Cloud },
+      { day: 'days.sun', temp: 32, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+    ],
+    advisory: 'weather.advisories.kolkata'
+  },
+  'Chennai': {
+    coords: { lat: 13.0827, lon: 80.2707 },
+    current: {
+      city: 'weather.cities.chennai',
+      temperature: 34,
+      condition: 'weather.conditions.sunny',
+      icon: Sun,
+      humidity: 65,
+      wind: 18,
+    },
+    forecast: [
+      { day: 'days.mon', temp: 35, condition: 'weather.conditions.sunny', icon: Sun },
+      { day: 'days.tue', temp: 34, condition: 'weather.conditions.sunny', icon: Sun },
+      { day: 'days.wed', temp: 33, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+      { day: 'days.thu', temp: 34, condition: 'weather.conditions.sunny', icon: Sun },
+      { day: 'days.fri', temp: 35, condition: 'weather.conditions.sunny', icon: Sun },
+      { day: 'days.sat', temp: 34, condition: 'weather.conditions.cloudy', icon: Cloud },
+      { day: 'days.sun', temp: 33, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+    ],
+    advisory: 'weather.advisories.chennai'
+  },
+  'Pune': {
+    coords: { lat: 18.5204, lon: 73.8567 },
+    current: {
+      city: 'weather.cities.pune',
+      temperature: 27,
+      condition: 'weather.conditions.partlyCloudy',
+      icon: CloudSun,
+      humidity: 78,
+      wind: 16,
+    },
+    forecast: [
+        { day: 'days.mon', temp: 28, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+        { day: 'days.tue', temp: 29, condition: 'weather.conditions.cloudy', icon: Cloud },
+        { day: 'days.wed', temp: 27, condition: 'weather.conditions.rain', icon: CloudRain },
+        { day: 'days.thu', temp: 26, condition: 'weather.conditions.rain', icon: CloudRain },
+        { day: 'days.fri', temp: 28, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+        { day: 'days.sat', temp: 29, condition: 'weather.conditions.cloudy', icon: Cloud },
+        { day: 'days.sun', temp: 28, condition: 'weather.conditions.partlyCloudy', icon: CloudSun },
+    ],
+    advisory: 'weather.advisories.pune'
   }
 };
 
