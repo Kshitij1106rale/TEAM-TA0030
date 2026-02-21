@@ -31,7 +31,7 @@ export function DashboardHeader() {
           <SelectContent>
             <SelectItem value="en">English</SelectItem>
             <SelectItem value="hi">हिन्दी</SelectItem>
-            <SelectItem value="ta">தமிழ்</SelectItem>
+            <SelectItem value="mr">मराठी</SelectItem>
           </SelectContent>
         </Select>
 
