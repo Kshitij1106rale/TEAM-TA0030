@@ -8,10 +8,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
-  DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
 import {
   Select,
@@ -20,10 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { LifeBuoy, LogOut, Settings, User, MapPin, LocateFixed, Globe } from "lucide-react";
+import { LifeBuoy, LogOut, Settings, User, MapPin, LocateFixed } from "lucide-react";
 import { Button } from "./ui/button";
 import { SidebarTrigger } from "./ui/sidebar";
-import { useTranslation, type Language } from "@/providers/i18n-provider";
+import { useTranslation } from "@/providers/i18n-provider";
 import { NotificationsDropdown } from "./notifications-dropdown";
 import { locations, weatherDataByLocation, type Location } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
@@ -42,7 +38,7 @@ function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
 }
 
 export function DashboardHeader() {
-  const { t, setLanguage, language, location, setLocation } = useTranslation();
+  const { t, setLocation, location } = useTranslation();
   const { toast } = useToast();
 
   const handleLiveLocation = () => {
@@ -91,10 +87,6 @@ export function DashboardHeader() {
     );
   };
 
-  const handleLanguageChange = (lang: Language) => {
-    setLanguage(lang);
-  };
-
   const handleLocationChange = (loc: Location) => {
     setLocation(loc);
   };
@@ -106,17 +98,6 @@ export function DashboardHeader() {
 
       <div className="flex w-full items-center justify-end gap-2 md:gap-4">
         {/* Desktop selectors */}
-        <Select value={language} onValueChange={(value) => handleLanguageChange(value as Language)}>
-          <SelectTrigger className="w-auto md:w-[120px] focus:ring-accent hidden md:flex">
-            <SelectValue placeholder={t('header.language')} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="en">English</SelectItem>
-            <SelectItem value="hi">हिन्दी</SelectItem>
-            <SelectItem value="mr">मराठी</SelectItem>
-          </SelectContent>
-        </Select>
-
         <Select value={location} onValueChange={(value) => handleLocationChange(value as Location)}>
           <SelectTrigger className="w-auto md:w-[150px] focus:ring-accent hidden md:flex">
             <div className="flex items-center gap-2">
@@ -153,12 +134,6 @@ export function DashboardHeader() {
           <DropdownMenuContent align="end" className="w-56">
             {/* Mobile Only Settings */}
             <div className="md:hidden">
-              <DropdownMenuLabel>{t('header.language')}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={() => handleLanguageChange('en')}>English</DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => handleLanguageChange('hi')}>हिन्दी</DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => handleLanguageChange('mr')}>मराठी</DropdownMenuItem>
-              <DropdownMenuSeparator />
               <DropdownMenuLabel>{t('header.location')}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {locations.map((loc) => (
