@@ -48,5 +48,82 @@
         "humidity": "Humidity",
         "wind": "Wind",
         "farmingAdvisory": "Farming Advisory"
+    },
+    "diseaseDetectionPage": {
+        "title": "AI Disease Detection",
+        "description": "Upload a photo of a crop leaf to get an instant diagnosis and treatment recommendations."
+    },
+    "diseaseDetectionForm": {
+        "submitTitle": "Submit for Analysis",
+        "submitDescription": "Upload a clear image of the affected leaf.",
+        "leafImageLabel": "Leaf Image",
+        "uploadPlaceholder": "Click or drag file to upload",
+        "descriptionLabel": "Optional Description",
+        "descriptionPlaceholder": "e.g., 'Yellow spots appeared 3 days ago on lower leaves...'",
+        "analyzeButton": "Analyze Leaf",
+        "analyzingTitle": "Analyzing Image...",
+        "analyzingDescription": "Our AI is inspecting the leaf. Please wait a moment.",
+        "analysisFailedTitle": "Analysis Failed",
+        "errorAnalyzing": "An error occurred while analyzing the image. Please try again.",
+        "errorReadingFile": "Failed to read the image file.",
+        "resultTitle": "Analysis Result",
+        "resultDescription": "AI-powered diagnosis and recommendations.",
+        "severity": "Severity",
+        "confidence": "Confidence",
+        "symptoms": "Symptoms",
+        "recommendations": "Recommendations",
+        "awaitingTitle": "Awaiting Analysis",
+        "awaitingDescription": "Your diagnosis report will appear here."
+    },
+    "marketPricesPage": {
+        "title": "Real-time Mandi Prices",
+        "description": "Compare prices across different markets to maximize your profit.",
+        "trendTitle": "7-Day Price Trend",
+        "trendDescription": "Price fluctuation for major crops over the last week (₹ per Quintal)."
+    },
+    "marketPricesTable": {
+        "title": "Detailed Price List",
+        "searchPlaceholder": "Search by mandi name...",
+        "filterPlaceholder": "Filter by crop",
+        "allCrops": "All Crops",
+        "crop": "Crop",
+        "variety": "Variety",
+        "mandi": "Mandi",
+        "price": "Price (₹/Qtl)",
+        "highest": "Highest",
+        "noResults": "No results found."
+    },
+    "priceTrendChart": {
+        "wheat": "Wheat",
+        "rice": "Rice",
+        "corn": "Corn"
+    },
+    "profitEstimatorPage": {
+        "title": "Profit Estimation Engine",
+        "description": "Forecast your potential profit based on crop data and market conditions."
+    },
+    "profitEstimatorForm": {
+        "title": "Enter Crop Details",
+        "description": "Provide the following details to estimate your potential profit.",
+        "cropTypeLabel": "Crop Type",
+        "cropTypePlaceholder": "Select a crop",
+        "costLabel": "Cost per Unit",
+        "costPlaceholder": "e.g., 1500",
+        "yieldLabel": "Expected Yield (in Quintals)",
+        "yieldPlaceholder": "e.g., 50",
+        "marketDataLabel": "Current Market Data",
+        "marketDataPlaceholder": "e.g., 'Current mandi price is around ₹2400/quintal, demand is high due to festive season...'",
+        "estimateButton": "Estimate Profit",
+        "calculatingTitle": "Calculating Profit...",
+        "calculatingDescription": "Our AI is running the numbers. Please wait a moment.",
+        "estimationFailedTitle": "Estimation Failed",
+        "errorEstimating": "An error occurred while estimating profit. Please try again.",
+        "analysisTitle": "Profit Analysis",
+        "analysisDescription": "AI-powered financial forecast for your crop.",
+        "estimatedProfit": "Estimated Profit",
+        "profitOutlook": "Profit Outlook",
+        "recommendations": "Recommendations",
+        "awaitingTitle": "Awaiting Estimation",
+        "awaitingDescription": "Your profit forecast will appear here."
     }
 }

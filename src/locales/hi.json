@@ -48,5 +48,82 @@
         "humidity": "नमी",
         "wind": "हवा",
         "farmingAdvisory": "खेती सलाहकार"
+    },
+    "diseaseDetectionPage": {
+        "title": "एआई रोग पहचान",
+        "description": "तुरंत निदान और उपचार की सिफारिशें प्राप्त करने के लिए फसल के पत्ते की एक तस्वीर अपलोड करें।"
+    },
+    "diseaseDetectionForm": {
+        "submitTitle": "विश्लेषण के लिए सबमिट करें",
+        "submitDescription": "प्रभावित पत्ते की एक स्पष्ट छवि अपलोड करें।",
+        "leafImageLabel": "पत्ते की छवि",
+        "uploadPlaceholder": "अपलोड करने के लिए फ़ाइल पर क्लिक करें या खींचें",
+        "descriptionLabel": "वैकल्पिक विवरण",
+        "descriptionPlaceholder": "जैसे, '3 दिन पहले निचली पत्तियों पर पीले धब्बे दिखाई दिए...'",
+        "analyzeButton": "पत्ते का विश्लेषण करें",
+        "analyzingTitle": "छवि का विश्लेषण हो रहा है...",
+        "analyzingDescription": "हमारा AI पत्ते का निरीक्षण कर रहा है। कृपया थोड़ी देर प्रतीक्षा करें।",
+        "analysisFailedTitle": "विश्लेषण विफल",
+        "errorAnalyzing": "छवि का विश्लेषण करते समय एक त्रुटि हुई। कृपया पुन: प्रयास करें।",
+        "errorReadingFile": "छवि फ़ाइल को पढ़ने में विफल।",
+        "resultTitle": "विश्लेषण परिणाम",
+        "resultDescription": "एआई-संचालित निदान और सिफारिशें।",
+        "severity": "गंभीरता",
+        "confidence": "आत्मविश्वास",
+        "symptoms": "लक्षण",
+        "recommendations": "सिफारिशें",
+        "awaitingTitle": "विश्लेषण की प्रतीक्षा है",
+        "awaitingDescription": "आपकी निदान रिपोर्ट यहां दिखाई देगी।"
+    },
+    "marketPricesPage": {
+        "title": "वास्तविक समय मंडी मूल्य",
+        "description": "अपने लाभ को अधिकतम करने के लिए विभिन्न बाजारों में कीमतों की तुलना करें।",
+        "trendTitle": "7-दिन की मूल्य प्रवृत्ति",
+        "trendDescription": "पिछले सप्ताह में प्रमुख फसलों के लिए मूल्य में उतार-चढ़ाव (₹ प्रति क्विंटल)।"
+    },
+    "marketPricesTable": {
+        "title": "विस्तृत मूल्य सूची",
+        "searchPlaceholder": "मंडी के नाम से खोजें...",
+        "filterPlaceholder": "फसल के अनुसार फ़िल्टर करें",
+        "allCrops": "सभी फसलें",
+        "crop": "फसल",
+        "variety": "किस्म",
+        "mandi": "मंडी",
+        "price": "मूल्य (₹/क्विंटल)",
+        "highest": "उच्चतम",
+        "noResults": "कोई परिणाम नहीं मिला।"
+    },
+    "priceTrendChart": {
+        "wheat": "गेहूँ",
+        "rice": "चावल",
+        "corn": "मक्का"
+    },
+    "profitEstimatorPage": {
+        "title": "लाभ अनुमान इंजन",
+        "description": "फसल डेटा और बाजार की स्थितियों के आधार पर अपने संभावित लाभ का पूर्वानुमान लगाएं।"
+    },
+    "profitEstimatorForm": {
+        "title": "फसल विवरण दर्ज करें",
+        "description": "अपने संभावित लाभ का अनुमान लगाने के लिए निम्नलिखित विवरण प्रदान करें।",
+        "cropTypeLabel": "फसल का प्रकार",
+        "cropTypePlaceholder": "एक फसल चुनें",
+        "costLabel": "प्रति यूनिट लागत",
+        "costPlaceholder": "जैसे, 1500",
+        "yieldLabel": "अपेक्षित उपज (क्विंटल में)",
+        "yieldPlaceholder": "जैसे, 50",
+        "marketDataLabel": "वर्तमान बाजार डेटा",
+        "marketDataPlaceholder": "जैसे, 'वर्तमान मंडी मूल्य लगभग ₹2400/क्विंटल है, त्योहारी सीजन के कारण मांग अधिक है...'",
+        "estimateButton": "लाभ का अनुमान लगाएं",
+        "calculatingTitle": "लाभ की गणना हो रही है...",
+        "calculatingDescription": "हमारा AI गणना कर रहा है। कृपया थोड़ी देर प्रतीक्षा करें।",
+        "estimationFailedTitle": "अनुमान विफल",
+        "errorEstimating": "लाभ का अनुमान लगाते समय एक त्रुटि हुई। कृपया पुन: प्रयास करें।",
+        "analysisTitle": "लाभ विश्लेषण",
+        "analysisDescription": "आपकी फसल के लिए एआई-संचालित वित्तीय पूर्वानुमान।",
+        "estimatedProfit": "अनुमानित लाभ",
+        "profitOutlook": "लाभ का दृष्टिकोण",
+        "recommendations": "सिफारिशें",
+        "awaitingTitle": "अनुमान की प्रतीक्षा है",
+        "awaitingDescription": "आपका लाभ पूर्वानुमान यहां दिखाई देगा।"
     }
 }

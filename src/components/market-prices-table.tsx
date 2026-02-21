@@ -1,14 +1,16 @@
 'use client';
 import { useState, useMemo } from 'react';
-import { mandiPrices, cropTypes } from '@/lib/data';
+import { mandiPrices } from '@/lib/data';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Input } from '@/components/ui/input';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { ArrowUp, ArrowDown, Search } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
+import { useTranslation } from '@/providers/i18n-provider';
 
 export function MarketPricesTable() {
+    const { t } = useTranslation();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCrop, setSelectedCrop] = useState('all');
 
@@ -31,12 +33,12 @@ export function MarketPricesTable() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Detailed Price List</CardTitle>
+                <CardTitle>{t('marketPricesTable.title')}</CardTitle>
                 <div className="flex flex-col md:flex-row gap-4 mt-4">
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input 
-                            placeholder="Search by mandi name..." 
+                            placeholder={t('marketPricesTable.searchPlaceholder')}
                             className="pl-10"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -44,10 +46,10 @@ export function MarketPricesTable() {
                     </div>
                     <Select value={selectedCrop} onValueChange={setSelectedCrop}>
                         <SelectTrigger className="w-full md:w-[180px]">
-                            <SelectValue placeholder="Filter by crop" />
+                            <SelectValue placeholder={t('marketPricesTable.filterPlaceholder')} />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="all">All Crops</SelectItem>
+                            <SelectItem value="all">{t('marketPricesTable.allCrops')}</SelectItem>
                             {[...new Set(mandiPrices.map(p => p.crop))].map(crop => (
                                 <SelectItem key={crop} value={crop}>{crop}</SelectItem>
                             ))}
@@ -60,10 +62,10 @@ export function MarketPricesTable() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Crop</TableHead>
-                                <TableHead>Variety</TableHead>
-                                <TableHead>Mandi</TableHead>
-                                <TableHead className="text-right">Price (₹/Qtl)</TableHead>
+                                <TableHead>{t('marketPricesTable.crop')}</TableHead>
+                                <TableHead>{t('marketPricesTable.variety')}</TableHead>
+                                <TableHead>{t('marketPricesTable.mandi')}</TableHead>
+                                <TableHead className="text-right">{t('marketPricesTable.price')}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -72,7 +74,7 @@ export function MarketPricesTable() {
                                     <TableCell className="font-medium flex items-center gap-2">
                                         {item.crop}
                                         {highestPricesByCrop.get(item.crop)?.id === item.id && (
-                                            <Badge variant="secondary" className="bg-accent/80 text-accent-foreground text-xs">Highest</Badge>
+                                            <Badge variant="secondary" className="bg-accent/80 text-accent-foreground text-xs">{t('marketPricesTable.highest')}</Badge>
                                         )}
                                     </TableCell>
                                     <TableCell>{item.variety}</TableCell>
@@ -92,7 +94,7 @@ export function MarketPricesTable() {
                             {filteredPrices.length === 0 && (
                                 <TableRow>
                                     <TableCell colSpan={4} className="text-center h-24 text-muted-foreground">
-                                        No results found.
+                                        {t('marketPricesTable.noResults')}
                                     </TableCell>
                                 </TableRow>
                             )}

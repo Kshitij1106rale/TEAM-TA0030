@@ -15,6 +15,7 @@ import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { Loader2, Upload, Leaf, ShieldCheck, Microscope, Thermometer, Info, BadgeCheck, BarChart, AlertTriangle } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
+import { useTranslation } from '@/providers/i18n-provider';
 
 const formSchema = z.object({
   image: z.any().refine((files) => files?.length > 0, 'Leaf image is required.'),
@@ -22,6 +23,7 @@ const formSchema = z.object({
 });
 
 export function DiseaseDetectionForm() {
+    const { t } = useTranslation();
     const [result, setResult] = useState<DiseaseDetectionOutput | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -31,6 +33,7 @@ export function DiseaseDetectionForm() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             description: '',
+            image: undefined,
         },
     });
 
@@ -53,7 +56,7 @@ export function DiseaseDetectionForm() {
 
         const file = values.image[0];
         if (!file) {
-            setError('No file selected.');
+            setError(t('diseaseDetectionForm.errorReadingFile'));
             setIsLoading(false);
             return;
         }
@@ -69,14 +72,14 @@ export function DiseaseDetectionForm() {
                 });
                 setResult(response);
             } catch (e) {
-                setError('An error occurred while analyzing the image. Please try again.');
+                setError(t('diseaseDetectionForm.errorAnalyzing'));
                 console.error(e);
             } finally {
                 setIsLoading(false);
             }
         };
         reader.onerror = () => {
-            setError('Failed to read the image file.');
+            setError(t('diseaseDetectionForm.errorReadingFile'));
             setIsLoading(false);
         };
     };
@@ -85,7 +88,7 @@ export function DiseaseDetectionForm() {
         low: 'bg-yellow-400/20 text-yellow-600 border-yellow-400/30',
         medium: 'bg-orange-400/20 text-orange-600 border-orange-400/30',
         high: 'bg-red-400/20 text-red-600 border-red-400/30',
-        'N/A': 'bg-green-400/20 text-green-600 border-green-400/30'
+        'n/a': 'bg-green-400/20 text-green-600 border-green-400/30'
     };
     
     const confidenceColors: {[key: string]: string} = {
@@ -98,8 +101,8 @@ export function DiseaseDetectionForm() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <Card>
           <CardHeader>
-            <CardTitle>Submit for Analysis</CardTitle>
-            <CardDescription>Upload a clear image of the affected leaf.</CardDescription>
+            <CardTitle>{t('diseaseDetectionForm.submitTitle')}</CardTitle>
+            <CardDescription>{t('diseaseDetectionForm.submitDescription')}</CardDescription>
           </CardHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -109,7 +112,7 @@ export function DiseaseDetectionForm() {
                   name="image"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Leaf Image</FormLabel>
+                      <FormLabel>{t('diseaseDetectionForm.leafImageLabel')}</FormLabel>
                       <FormControl>
                         <div className="relative flex justify-center items-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer hover:bg-muted/50 transition-colors">
                           <Input
@@ -123,7 +126,7 @@ export function DiseaseDetectionForm() {
                           ) : (
                             <div className="text-center">
                               <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
-                              <p className="mt-2 text-sm text-muted-foreground">Click or drag file to upload</p>
+                              <p className="mt-2 text-sm text-muted-foreground">{t('diseaseDetectionForm.uploadPlaceholder')}</p>
                             </div>
                           )}
                         </div>
@@ -137,9 +140,9 @@ export function DiseaseDetectionForm() {
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Optional Description</FormLabel>
+                      <FormLabel>{t('diseaseDetectionForm.descriptionLabel')}</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="e.g., 'Yellow spots appeared 3 days ago on lower leaves...'" {...field} />
+                        <Textarea placeholder={t('diseaseDetectionForm.descriptionPlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -149,7 +152,7 @@ export function DiseaseDetectionForm() {
               <CardFooter>
                 <Button type="submit" disabled={isLoading} className="w-full">
                   {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Microscope className="mr-2 h-4 w-4" />}
-                  Analyze Leaf
+                  {t('diseaseDetectionForm.analyzeButton')}
                 </Button>
               </CardFooter>
             </form>
@@ -161,8 +164,8 @@ export function DiseaseDetectionForm() {
             <Card className="flex flex-col items-center justify-center h-full">
               <CardContent className="text-center p-6">
                 <Loader2 className="h-16 w-16 animate-spin text-primary" />
-                <p className="mt-4 font-semibold text-lg">Analyzing Image...</p>
-                <p className="text-muted-foreground">Our AI is inspecting the leaf. Please wait a moment.</p>
+                <p className="mt-4 font-semibold text-lg">{t('diseaseDetectionForm.analyzingTitle')}</p>
+                <p className="text-muted-foreground">{t('diseaseDetectionForm.analyzingDescription')}</p>
               </CardContent>
             </Card>
           )}
@@ -170,7 +173,7 @@ export function DiseaseDetectionForm() {
           {error && (
             <Alert variant="destructive">
               <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Analysis Failed</AlertTitle>
+              <AlertTitle>{t('diseaseDetectionForm.analysisFailedTitle')}</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
@@ -180,22 +183,22 @@ export function DiseaseDetectionForm() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     {result.diseaseDetected ? <Leaf className="text-destructive" /> : <ShieldCheck className="text-primary" />}
-                    <span>Analysis Result</span>
+                    <span>{t('diseaseDetectionForm.resultTitle')}</span>
                 </CardTitle>
-                <CardDescription>AI-powered diagnosis and recommendations.</CardDescription>
+                <CardDescription>{t('diseaseDetectionForm.resultDescription')}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                   <div className="bg-muted/50 p-4 rounded-lg">
                     <h3 className="font-semibold text-lg">{result.diseaseName}</h3>
                     <div className="flex items-center gap-4 mt-2 text-sm">
-                        {result.severity !== 'N/A' && <Badge variant="outline" className={severityColors[result.severity.toLowerCase()]}>Severity: {result.severity}</Badge>}
-                        <Badge variant="outline" className={confidenceColors[result.confidence.toLowerCase()]}>Confidence: {result.confidence}</Badge>
+                        {result.severity !== 'N/A' && <Badge variant="outline" className={severityColors[result.severity.toLowerCase()]}>{t('diseaseDetectionForm.severity')}: {result.severity}</Badge>}
+                        <Badge variant="outline" className={confidenceColors[result.confidence.toLowerCase()]}>{t('diseaseDetectionForm.confidence')}: {result.confidence}</Badge>
                     </div>
                   </div>
 
                 {result.symptoms && result.symptoms.length > 0 && (
                     <div>
-                        <h4 className="font-semibold flex items-center gap-2 mb-2"><Thermometer className="h-4 w-4"/>Symptoms</h4>
+                        <h4 className="font-semibold flex items-center gap-2 mb-2"><Thermometer className="h-4 w-4"/>{t('diseaseDetectionForm.symptoms')}</h4>
                         <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                             {result.symptoms.map((symptom, i) => <li key={i}>{symptom}</li>)}
                         </ul>
@@ -206,7 +209,7 @@ export function DiseaseDetectionForm() {
 
                 {result.recommendations && (
                     <div>
-                        <h4 className="font-semibold flex items-center gap-2 mb-2"><Info className="h-4 w-4"/>Recommendations</h4>
+                        <h4 className="font-semibold flex items-center gap-2 mb-2"><Info className="h-4 w-4"/>{t('diseaseDetectionForm.recommendations')}</h4>
                         <div className="text-sm text-muted-foreground prose prose-sm dark:prose-invert max-w-none" dangerouslySetInnerHTML={{ __html: result.recommendations.replace(/\n/g, '<br />') }} />
                     </div>
                 )}
@@ -218,8 +221,8 @@ export function DiseaseDetectionForm() {
             <Card className="flex flex-col items-center justify-center h-full border-dashed">
                 <CardContent className="text-center p-6">
                     <BadgeCheck className="h-16 w-16 text-muted-foreground/50" />
-                    <p className="mt-4 font-semibold text-lg text-muted-foreground">Awaiting Analysis</p>
-                    <p className="text-muted-foreground">Your diagnosis report will appear here.</p>
+                    <p className="mt-4 font-semibold text-lg text-muted-foreground">{t('diseaseDetectionForm.awaitingTitle')}</p>
+                    <p className="text-muted-foreground">{t('diseaseDetectionForm.awaitingDescription')}</p>
                 </CardContent>
             </Card>
           )}

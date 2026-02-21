@@ -48,5 +48,82 @@
         "humidity": "आर्द्रता",
         "wind": "वारा",
         "farmingAdvisory": "शेती सल्ला"
+    },
+    "diseaseDetectionPage": {
+        "title": "एआय रोग निदान",
+        "description": "त्वरित निदान आणि उपचार शिफारसी मिळविण्यासाठी पीक पानाच्या फोटो अपलोड करा."
+    },
+    "diseaseDetectionForm": {
+        "submitTitle": "विश्लेषणासाठी सबमिट करा",
+        "submitDescription": "बाधित पानाची स्पष्ट प्रतिमा अपलोड करा.",
+        "leafImageLabel": "पानाची प्रतिमा",
+        "uploadPlaceholder": "अपलोड करण्यासाठी फाइलवर क्लिक करा किंवा ड्रॅग करा",
+        "descriptionLabel": "ऐच्छिक वर्णन",
+        "descriptionPlaceholder": "उदा., '३ दिवसांपूर्वी खालच्या पानांवर पिवळे डाग दिसले...'",
+        "analyzeButton": "पानाचे विश्लेषण करा",
+        "analyzingTitle": "प्रतिमेचे विश्लेषण करत आहे...",
+        "analyzingDescription": "आमचे AI पानाची तपासणी करत आहे. कृपया थोडा वेळ थांबा.",
+        "analysisFailedTitle": "विश्लेषण अयशस्वी",
+        "errorAnalyzing": "प्रतिमेचे विश्लेषण करताना त्रुटी आली. कृपया पुन्हा प्रयत्न करा.",
+        "errorReadingFile": "प्रतिमा फाइल वाचण्यात अयशस्वी.",
+        "resultTitle": "विश्लेषण परिणाम",
+        "resultDescription": "एआय-चालित निदान आणि शिफारसी.",
+        "severity": "गंभीरता",
+        "confidence": "आत्मविश्वास",
+        "symptoms": "लक्षणे",
+        "recommendations": "शिफारसी",
+        "awaitingTitle": "विश्लेषणाची प्रतीक्षा आहे",
+        "awaitingDescription": "तुमचा निदान अहवाल येथे दिसेल."
+    },
+    "marketPricesPage": {
+        "title": "रिअल-टाइम मंडी भाव",
+        "description": "तुमचा नफा वाढवण्यासाठी विविध बाजारांमधील किमतींची तुलना करा.",
+        "trendTitle": "७-दिवसांची किंमत ट्रेंड",
+        "trendDescription": "गेल्या आठवड्यात प्रमुख पिकांसाठी किमतीतील चढ-उतार (₹ प्रति क्विंटल)."
+    },
+    "marketPricesTable": {
+        "title": "तपशीलवार किंमत सूची",
+        "searchPlaceholder": "मंडीच्या नावाने शोधा...",
+        "filterPlaceholder": "पिकानुसार फिल्टर करा",
+        "allCrops": "सर्व पिके",
+        "crop": "पीक",
+        "variety": "वाण",
+        "mandi": "मंडी",
+        "price": "किंमत (₹/क्विंटल)",
+        "highest": "सर्वाधिक",
+        "noResults": "कोणतेही परिणाम आढळले नाहीत."
+    },
+    "priceTrendChart": {
+        "wheat": "गहू",
+        "rice": "तांदूळ",
+        "corn": "मका"
+    },
+    "profitEstimatorPage": {
+        "title": "नफा अंदाज इंजिन",
+        "description": "पीक डेटा आणि बाजाराच्या परिस्थितीवर आधारित तुमच्या संभाव्य नफ्याचा अंदाज लावा."
+    },
+    "profitEstimatorForm": {
+        "title": "पीक तपशील प्रविष्ट करा",
+        "description": "तुमच्या संभाव्य नफ्याचा अंदाज घेण्यासाठी खालील तपशील द्या.",
+        "cropTypeLabel": "पिकाचा प्रकार",
+        "cropTypePlaceholder": "एक पीक निवडा",
+        "costLabel": "प्रति युनिट खर्च",
+        "costPlaceholder": "उदा., 1500",
+        "yieldLabel": "अपेक्षित उत्पन्न (क्विंटलमध्ये)",
+        "yieldPlaceholder": "उदा., 50",
+        "marketDataLabel": "सध्याचा बाजार डेटा",
+        "marketDataPlaceholder": "उदा., 'सध्याचा मंडी भाव सुमारे ₹2400/क्विंटल आहे, सणासुदीच्या हंगामामुळे मागणी जास्त आहे...'",
+        "estimateButton": "नफ्याचा अंदाज लावा",
+        "calculatingTitle": "नफ्याची गणना करत आहे...",
+        "calculatingDescription": "आमचे AI आकडेमोड करत आहे. कृपया थोडा वेळ थांबा.",
+        "estimationFailedTitle": "अंदाज अयशस्वी",
+        "errorEstimating": "नफ्याचा अंदाज लावताना त्रुटी आली. कृपया पुन्हा प्रयत्न करा.",
+        "analysisTitle": "नफा विश्लेषण",
+        "analysisDescription": "तुमच्या पिकासाठी एआय-चालित आर्थिक अंदाज.",
+        "estimatedProfit": "अंदाजित नफा",
+        "profitOutlook": "नफ्याचा दृष्टिकोन",
+        "recommendations": "शिफारसी",
+        "awaitingTitle": "अंदाजाची प्रतीक्षा आहे",
+        "awaitingDescription": "तुमचा नफा अंदाज येथे दिसेल."
     }
 }

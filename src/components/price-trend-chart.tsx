@@ -1,24 +1,28 @@
 'use client';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from '@/components/ui/chart';
 import { priceTrends } from '@/lib/data';
-import { Line, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useTranslation } from '@/providers/i18n-provider';
+import { Line, LineChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
-const chartConfig = {
-  Wheat: {
-    label: "Wheat",
-    color: "hsl(var(--chart-1))",
-  },
-  Rice: {
-    label: "Rice",
-    color: "hsl(var(--chart-2))",
-  },
-  Corn: {
-    label: "Corn",
-    color: "hsl(var(--chart-3))",
-  },
-}
 
 export function PriceTrendChart() {
+    const { t } = useTranslation();
+
+    const chartConfig = {
+      Wheat: {
+        label: t('priceTrendChart.wheat'),
+        color: "hsl(var(--chart-1))",
+      },
+      Rice: {
+        label: t('priceTrendChart.rice'),
+        color: "hsl(var(--chart-2))",
+      },
+      Corn: {
+        label: t('priceTrendChart.corn'),
+        color: "hsl(var(--chart-3))",
+      },
+    }
+
     return (
         <ChartContainer config={chartConfig} className="min-h-[200px] w-full aspect-video">
             <ResponsiveContainer width="100%" height={350}>

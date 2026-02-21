@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { cropTypes } from '@/lib/data';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
+import { useTranslation } from '@/providers/i18n-provider';
 
 const formSchema = z.object({
   cropType: z.string().min(1, 'Crop type is required.'),
@@ -25,6 +26,7 @@ const formSchema = z.object({
 });
 
 export function ProfitEstimatorForm() {
+    const { t } = useTranslation();
     const [result, setResult] = useState<ProfitEstimationOutput | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -33,8 +35,8 @@ export function ProfitEstimatorForm() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             cropType: '',
-            productionCostPerUnit: 0,
-            expectedYield: 0,
+            productionCostPerUnit: undefined,
+            expectedYield: undefined,
             currentMarketData: '',
         },
     });
@@ -48,7 +50,7 @@ export function ProfitEstimatorForm() {
             const response = await estimateProfit(values);
             setResult(response);
         } catch (e) {
-            setError('An error occurred while estimating profit. Please try again.');
+            setError(t('profitEstimatorForm.errorEstimating'));
             console.error(e);
         } finally {
             setIsLoading(false);
@@ -61,20 +63,19 @@ export function ProfitEstimatorForm() {
         challenging: 'bg-red-400/20 text-red-600 border-red-400/30',
     };
 
-    const formatCurrency = (value: number) => {
-        const formattedValue = new Intl.NumberFormat('en-IN', {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
+    const formatNumber = (value: number) => {
+        return new Intl.NumberFormat('en-IN', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
         }).format(value);
-        return formattedValue;
     }
 
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <Card>
           <CardHeader>
-            <CardTitle>Enter Crop Details</CardTitle>
-            <CardDescription>Provide the following details to estimate your potential profit.</CardDescription>
+            <CardTitle>{t('profitEstimatorForm.title')}</CardTitle>
+            <CardDescription>{t('profitEstimatorForm.description')}</CardDescription>
           </CardHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -85,11 +86,11 @@ export function ProfitEstimatorForm() {
                     name="cropType"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Crop Type</FormLabel>
+                        <FormLabel>{t('profitEstimatorForm.cropTypeLabel')}</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Select a crop" />
+                              <SelectValue placeholder={t('profitEstimatorForm.cropTypePlaceholder')} />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -105,9 +106,9 @@ export function ProfitEstimatorForm() {
                     name="productionCostPerUnit"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Cost per Unit</FormLabel>
+                        <FormLabel>{t('profitEstimatorForm.costLabel')}</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="e.g., 1500" {...field} />
+                          <Input type="number" placeholder={t('profitEstimatorForm.costPlaceholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -119,9 +120,9 @@ export function ProfitEstimatorForm() {
                     name="expectedYield"
                     render={({ field }) => (
                         <FormItem>
-                        <FormLabel>Expected Yield (in Quintals)</FormLabel>
+                        <FormLabel>{t('profitEstimatorForm.yieldLabel')}</FormLabel>
                         <FormControl>
-                            <Input type="number" placeholder="e.g., 50" {...field} />
+                            <Input type="number" placeholder={t('profitEstimatorForm.yieldPlaceholder')} {...field} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -132,9 +133,9 @@ export function ProfitEstimatorForm() {
                   name="currentMarketData"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Current Market Data</FormLabel>
+                      <FormLabel>{t('profitEstimatorForm.marketDataLabel')}</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="e.g., 'Current mandi price is around ₹2400/quintal, demand is high due to festive season...'" {...field} />
+                        <Textarea placeholder={t('profitEstimatorForm.marketDataPlaceholder')} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -144,7 +145,7 @@ export function ProfitEstimatorForm() {
               <CardFooter>
                 <Button type="submit" disabled={isLoading} className="w-full">
                   {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <BrainCircuit className="mr-2 h-4 w-4" />}
-                  Estimate Profit
+                  {t('profitEstimatorForm.estimateButton')}
                 </Button>
               </CardFooter>
             </form>
@@ -156,8 +157,8 @@ export function ProfitEstimatorForm() {
             <Card className="flex flex-col items-center justify-center h-full">
               <CardContent className="text-center p-6">
                 <Loader2 className="h-16 w-16 animate-spin text-primary" />
-                <p className="mt-4 font-semibold text-lg">Calculating Profit...</p>
-                <p className="text-muted-foreground">Our AI is running the numbers. Please wait a moment.</p>
+                <p className="mt-4 font-semibold text-lg">{t('profitEstimatorForm.calculatingTitle')}</p>
+                <p className="text-muted-foreground">{t('profitEstimatorForm.calculatingDescription')}</p>
               </CardContent>
             </Card>
           )}
@@ -165,7 +166,7 @@ export function ProfitEstimatorForm() {
           {error && (
             <Alert variant="destructive">
               <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Estimation Failed</AlertTitle>
+              <AlertTitle>{t('profitEstimatorForm.estimationFailedTitle')}</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
@@ -173,18 +174,18 @@ export function ProfitEstimatorForm() {
           {result && (
             <Card className="animate-fade-in">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2"><BarChart /> Profit Analysis</CardTitle>
-                <CardDescription>AI-powered financial forecast for your crop.</CardDescription>
+                <CardTitle className="flex items-center gap-2"><BarChart /> {t('profitEstimatorForm.analysisTitle')}</CardTitle>
+                <CardDescription>{t('profitEstimatorForm.analysisDescription')}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid grid-cols-2 gap-4 text-center">
-                    <div className="bg-muted/50 p-4 rounded-lg">
-                        <h4 className="text-sm font-medium text-muted-foreground">Estimated Profit</h4>
-                        <div className="text-3xl font-bold text-primary">{formatCurrency(result.estimatedProfit)}</div>
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-muted/50 p-4 rounded-lg text-center">
+                        <h4 className="text-sm font-medium text-muted-foreground">{t('profitEstimatorForm.estimatedProfit')}</h4>
+                        <div className="text-3xl font-bold text-primary">{formatNumber(result.estimatedProfit)}</div>
                     </div>
                     <div className="bg-muted/50 p-4 rounded-lg">
-                        <h4 className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2"><TrendingUp className="h-4 w-4"/>Profit Outlook</h4>
-                        <div className="text-3xl font-bold">
+                        <h4 className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2"><TrendingUp className="h-4 w-4"/>{t('profitEstimatorForm.profitOutlook')}</h4>
+                        <div className="text-3xl font-bold text-center">
                             <Badge variant="outline" className={`text-lg ${outlookColors[result.profitOutlook.toLowerCase()]}`}>
                                 {result.profitOutlook}
                             </Badge>
@@ -195,7 +196,7 @@ export function ProfitEstimatorForm() {
                 <Separator />
 
                 <div>
-                    <h4 className="font-semibold flex items-center gap-2 mb-2"><ListChecks className="h-5 w-5"/>Recommendations</h4>
+                    <h4 className="font-semibold flex items-center gap-2 mb-2"><ListChecks className="h-5 w-5"/>{t('profitEstimatorForm.recommendations')}</h4>
                     <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
                         {result.recommendations.map((rec, i) => <li key={i}>{rec}</li>)}
                     </ul>
@@ -208,8 +209,8 @@ export function ProfitEstimatorForm() {
             <Card className="flex flex-col items-center justify-center h-full border-dashed">
                 <CardContent className="text-center p-6">
                     <BadgeCheck className="h-16 w-16 text-muted-foreground/50" />
-                    <p className="mt-4 font-semibold text-lg text-muted-foreground">Awaiting Estimation</p>
-                    <p className="text-muted-foreground">Your profit forecast will appear here.</p>
+                    <p className="mt-4 font-semibold text-lg text-muted-foreground">{t('profitEstimatorForm.awaitingTitle')}</p>
+                    <p className="text-muted-foreground">{t('profitEstimatorForm.awaitingDescription')}</p>
                 </CardContent>
             </Card>
           )}

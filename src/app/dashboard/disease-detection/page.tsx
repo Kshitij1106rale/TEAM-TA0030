@@ -1,7 +1,11 @@
+'use client';
+
 import { DiseaseDetectionForm } from "@/components/disease-detection-form";
+import { useTranslation } from "@/providers/i18n-provider";
 import { Sprout } from "lucide-react";
 
 export default function DiseaseDetectionPage() {
+  const { t } = useTranslation();
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex items-start gap-4 md:items-center">
@@ -9,9 +13,9 @@ export default function DiseaseDetectionPage() {
           <Sprout className="h-8 w-8 text-primary" />
         </div>
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold font-headline">AI Disease Detection</h1>
+          <h1 className="text-2xl md:text-3xl font-bold font-headline">{t('diseaseDetectionPage.title')}</h1>
           <p className="text-muted-foreground">
-            Upload a photo of a crop leaf to get an instant diagnosis and treatment recommendations.
+            {t('diseaseDetectionPage.description')}
           </p>
         </div>
       </div>
