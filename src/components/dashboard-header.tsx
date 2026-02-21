@@ -153,36 +153,19 @@ export function DashboardHeader() {
           <DropdownMenuContent align="end" className="w-56">
             {/* Mobile Only Settings */}
             <div className="md:hidden">
-              <DropdownMenuLabel>{t('header.settings')}</DropdownMenuLabel>
+              <DropdownMenuLabel>{t('header.language')}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <Globe className="mr-2 h-4 w-4" />
-                  <span>{t('header.language')}</span>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent>
-                    <DropdownMenuItem onSelect={() => handleLanguageChange('en')}>English</DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => handleLanguageChange('hi')}>हिन्दी</DropdownMenuItem>
-                    <DropdownMenuItem onSelect={() => handleLanguageChange('mr')}>मराठी</DropdownMenuItem>
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  <MapPin className="mr-2 h-4 w-4" />
-                  <span>{t('header.location')}</span>
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent>
-                    {locations.map((loc) => (
-                      <DropdownMenuItem key={loc} onSelect={() => handleLocationChange(loc as Location)}>
-                        {t(`weather.cities.${loc.toLowerCase()}`)}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
+              <DropdownMenuItem onSelect={() => handleLanguageChange('en')}>English</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => handleLanguageChange('hi')}>हिन्दी</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => handleLanguageChange('mr')}>मराठी</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>{t('header.location')}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {locations.map((loc) => (
+                <DropdownMenuItem key={loc} onSelect={() => handleLocationChange(loc as Location)}>
+                  {t(`weather.cities.${loc.toLowerCase()}`)}
+                </DropdownMenuItem>
+              ))}
               <DropdownMenuItem onClick={handleLiveLocation}>
                 <LocateFixed className="mr-2 h-4 w-4" />
                 <span>{t('header.liveLocation')}</span>
