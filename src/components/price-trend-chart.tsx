@@ -42,7 +42,7 @@ export function PriceTrendChart() {
                     cursor={false}
                     content={<ChartTooltipContent indicator="line" />}
                 />
-                <Legend content={<ChartLegendContent />} />
+                <ChartLegend content={<ChartLegendContent />} />
                 <Line
                     dataKey="Wheat"
                     type="monotone"
