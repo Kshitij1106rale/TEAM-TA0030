@@ -8,11 +8,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
 import {
   Select,
@@ -108,6 +103,27 @@ export function DashboardHeader() {
           </SelectContent>
         </Select>
 
+        <Select value={location} onValueChange={(value) => setLocation(value as Location)}>
+          <SelectTrigger className="w-auto md:w-[150px] focus:ring-accent">
+            <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4" />
+                <SelectValue />
+            </div>
+          </SelectTrigger>
+          <SelectContent>
+            {locations.map((loc) => (
+                <SelectItem key={loc} value={loc}>
+                    {t(`weather.cities.${loc.toLowerCase()}`)}
+                </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Button variant="ghost" size="icon" onClick={handleLiveLocation} className="rounded-full">
+            <LocateFixed className="h-5 w-5 text-muted-foreground" />
+            <span className="sr-only">{t('header.liveLocation')}</span>
+        </Button>
+
         <NotificationsDropdown />
 
         <DropdownMenu>
@@ -131,25 +147,6 @@ export function DashboardHeader() {
               <Settings className="mr-2 h-4 w-4" />
               <span>{t('header.settings')}</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={handleLiveLocation}>
-              <LocateFixed className="mr-2 h-4 w-4" />
-              <span>{t('header.liveLocation')}</span>
-            </DropdownMenuItem>
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                <MapPin className="mr-2 h-4 w-4" />
-                <span>{t('header.location')}</span>
-              </DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                <DropdownMenuRadioGroup value={location} onValueChange={(value) => setLocation(value as Location)}>
-                  {locations.map((loc) => (
-                    <DropdownMenuRadioItem key={loc} value={loc}>
-                      {t(`weather.cities.${loc.toLowerCase()}`)}
-                    </DropdownMenuRadioItem>
-                  ))}
-                </DropdownMenuRadioGroup>
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
             <DropdownMenuItem>
               <LifeBuoy className="mr-2 h-4 w-4" />
               <span>{t('header.support')}</span>
