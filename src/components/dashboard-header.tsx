@@ -97,103 +97,111 @@ export function DashboardHeader() {
 
 
   return (
-    <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
-      <SidebarTrigger className="md:hidden" />
+    <header className="sticky top-0 z-10 flex h-16 items-center justify-between gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
+        <div className="flex items-center gap-4">
+            <SidebarTrigger className="md:hidden" />
+        </div>
 
-      <div className="flex w-full items-center justify-end gap-2 md:gap-4">
+      <div className="flex items-center gap-4">
         {/* Desktop selectors */}
-        <Select value={location} onValueChange={(value) => handleLocationChange(value as Location)}>
-          <SelectTrigger className="w-auto md:w-[150px] focus:ring-accent hidden md:flex">
-            <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                <SelectValue />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            {locations.map((loc) => (
-                <SelectItem key={loc} value={loc}>
-                    {t(`weather.cities.${loc.toLowerCase()}`)}
-                </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="hidden md:flex items-center gap-4">
+            <Select value={location} onValueChange={(value) => handleLocationChange(value as Location)}>
+            <SelectTrigger className="w-auto md:w-[150px] focus:ring-accent">
+                <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4" />
+                    <SelectValue />
+                </div>
+            </SelectTrigger>
+            <SelectContent>
+                {locations.map((loc) => (
+                    <SelectItem key={loc} value={loc}>
+                        {t(`weather.cities.${loc.toLowerCase()}`)}
+                    </SelectItem>
+                ))}
+            </SelectContent>
+            </Select>
 
-        <Button variant="ghost" size="icon" onClick={handleLiveLocation} className="rounded-full hidden md:inline-flex">
-            <LocateFixed className="h-5 w-5 text-muted-foreground" />
-            <span className="sr-only">{t('header.liveLocation')}</span>
-        </Button>
-
-        <Select value={language} onValueChange={(value) => handleLanguageChange(value as Language)}>
-          <SelectTrigger className="w-auto md:w-[120px] focus:ring-accent hidden md:flex">
-             <div className="flex items-center gap-2">
-                <Globe className="h-4 w-4" />
-                <SelectValue />
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="en">English</SelectItem>
-            <SelectItem value="hi">हिन्दी</SelectItem>
-            <SelectItem value="mr">मराठी</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <NotificationsDropdown />
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Avatar className="h-9 w-9">
-                <AvatarImage src="https://picsum.photos/seed/user/100/100" data-ai-hint="person portrait" alt="User" />
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
-              <span className="sr-only">{t('header.userMenu')}</span>
+            <Button variant="ghost" size="icon" onClick={handleLiveLocation} className="rounded-full">
+                <LocateFixed className="h-5 w-5 text-muted-foreground" />
+                <span className="sr-only">{t('header.liveLocation')}</span>
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            {/* Mobile Only Settings */}
-            <div className="md:hidden">
-              <DropdownMenuLabel>{t('header.location')}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {locations.map((loc) => (
-                <DropdownMenuItem key={loc} onSelect={() => handleLocationChange(loc as Location)}>
-                  {t(`weather.cities.${loc.toLowerCase()}`)}
-                </DropdownMenuItem>
-              ))}
-              <DropdownMenuItem onClick={handleLiveLocation}>
-                <LocateFixed className="mr-2 h-4 w-4" />
-                <span>{t('header.liveLocation')}</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>{t('header.language')}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onSelect={() => handleLanguageChange('en')}>English</DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => handleLanguageChange('hi')}>हिन्दी</DropdownMenuItem>
-              <DropdownMenuItem onSelect={() => handleLanguageChange('mr')}>मराठी</DropdownMenuItem>
-              <DropdownMenuSeparator />
-            </div>
 
-            {/* Common Settings */}
-            <DropdownMenuLabel>{t('header.myAccount')}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              <span>{t('header.profile')}</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
-              <span>{t('header.settings')}</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <LifeBuoy className="mr-2 h-4 w-4" />
-              <span>{t('header.support')}</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>{t('header.logout')}</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            <Select value={language} onValueChange={(value) => handleLanguageChange(value as Language)}>
+            <SelectTrigger className="w-auto md:w-[120px] focus:ring-accent">
+                <div className="flex items-center gap-2">
+                    <Globe className="h-4 w-4" />
+                    <SelectValue />
+                </div>
+            </SelectTrigger>
+            <SelectContent>
+                <SelectItem value="en">English</SelectItem>
+                <SelectItem value="hi">हिन्दी</SelectItem>
+                <SelectItem value="mr">मराठी</SelectItem>
+            </SelectContent>
+            </Select>
+        </div>
+
+        <div className="hidden md:block h-6 w-px bg-border"></div>
+
+        <div className="flex items-center gap-2 md:gap-4">
+            <NotificationsDropdown />
+
+            <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="rounded-full">
+                <Avatar className="h-9 w-9">
+                    <AvatarImage src="https://picsum.photos/seed/user/100/100" data-ai-hint="person portrait" alt="User" />
+                    <AvatarFallback>U</AvatarFallback>
+                </Avatar>
+                <span className="sr-only">{t('header.userMenu')}</span>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+                {/* Mobile Only Settings */}
+                <div className="md:hidden">
+                <DropdownMenuLabel>{t('header.location')}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {locations.map((loc) => (
+                    <DropdownMenuItem key={loc} onSelect={() => handleLocationChange(loc as Location)}>
+                    {t(`weather.cities.${loc.toLowerCase()}`)}
+                    </DropdownMenuItem>
+                ))}
+                <DropdownMenuItem onClick={handleLiveLocation}>
+                    <LocateFixed className="mr-2 h-4 w-4" />
+                    <span>{t('header.liveLocation')}</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel>{t('header.language')}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onSelect={() => handleLanguageChange('en')}>English</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleLanguageChange('hi')}>हिन्दी</DropdownMenuItem>
+                <DropdownMenuItem onSelect={() => handleLanguageChange('mr')}>मराठी</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                </div>
+
+                {/* Common Settings */}
+                <DropdownMenuLabel>{t('header.myAccount')}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                <User className="mr-2 h-4 w-4" />
+                <span>{t('header.profile')}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                <span>{t('header.settings')}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                <LifeBuoy className="mr-2 h-4 w-4" />
+                <span>{t('header.support')}</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>{t('header.logout')}</span>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+            </DropdownMenu>
+        </div>
       </div>
     </header>
   );
