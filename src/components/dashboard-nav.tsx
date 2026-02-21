@@ -24,8 +24,14 @@ const navItems = [
 
 export function DashboardNav() {
   const pathname = usePathname();
-  const { state } = useSidebar();
+  const { state, isMobile, setOpenMobile } = useSidebar();
   const { t } = useTranslation();
+
+  const handleNavClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
 
   return (
     <>
@@ -45,6 +51,7 @@ export function DashboardNav() {
                 asChild
                 isActive={pathname === item.href}
                 tooltip={t(item.labelKey)}
+                onClick={handleNavClick}
               >
                 <Link href={item.href}>
                   <item.icon className="h-5 w-5" />
