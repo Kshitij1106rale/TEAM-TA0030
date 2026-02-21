@@ -54,10 +54,10 @@ export function WeatherWidget() {
             ))}
           </div>
           {advisory && (
-            <Alert className="bg-accent/10 border-accent/20">
-              <AlertTriangle className="h-4 w-4 text-accent" />
-              <AlertTitle className="text-accent font-bold">{isClient ? t('weather.farmingAdvisory'): '...'}</AlertTitle>
-              <AlertDescription className="text-accent-foreground/80">
+            <Alert className="bg-primary/10 border-primary/20">
+              <AlertTriangle className="h-4 w-4 text-primary" />
+              <AlertTitle className="text-primary font-bold">{isClient ? t('weather.farmingAdvisory'): '...'}</AlertTitle>
+              <AlertDescription className="text-primary/90">
                 {isClient ? t(advisory) : '...'}
               </AlertDescription>
             </Alert>
