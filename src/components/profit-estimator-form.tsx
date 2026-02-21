@@ -66,7 +66,7 @@ export function ProfitEstimatorForm() {
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
         }).format(value);
-        return `₹${formattedValue}`;
+        return formattedValue;
     }
 
     return (
@@ -105,7 +105,7 @@ export function ProfitEstimatorForm() {
                     name="productionCostPerUnit"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Cost per Unit (₹)</FormLabel>
+                        <FormLabel>Cost per Unit</FormLabel>
                         <FormControl>
                           <Input type="number" placeholder="e.g., 1500" {...field} />
                         </FormControl>
