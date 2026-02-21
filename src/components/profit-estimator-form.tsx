@@ -33,8 +33,8 @@ export function ProfitEstimatorForm() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             cropType: '',
-            productionCostPerUnit: '' as any,
-            expectedYield: '' as any,
+            productionCostPerUnit: undefined,
+            expectedYield: undefined,
             currentMarketData: '',
         },
     });
@@ -99,7 +99,7 @@ export function ProfitEstimatorForm() {
                       <FormItem>
                         <FormLabel>Cost per Unit (₹)</FormLabel>
                         <FormControl>
-                          <Input type="number" placeholder="e.g., 1500" {...field} />
+                          <Input type="number" placeholder="e.g., 1500" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -113,7 +113,7 @@ export function ProfitEstimatorForm() {
                         <FormItem>
                         <FormLabel>Expected Yield (in Quintals)</FormLabel>
                         <FormControl>
-                            <Input type="number" placeholder="e.g., 50" {...field} />
+                            <Input type="number" placeholder="e.g., 50" {...field} value={field.value ?? ''} />
                         </FormControl>
                         <FormMessage />
                         </FormItem>
@@ -176,11 +176,11 @@ export function ProfitEstimatorForm() {
                     </div>
                     <div className="bg-muted/50 p-4 rounded-lg">
                         <h4 className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2"><TrendingUp className="h-4 w-4"/>Profit Outlook</h4>
-                        <p className="text-3xl font-bold">
+                        <div className="text-3xl font-bold">
                             <Badge variant="outline" className={`text-lg ${outlookColors[result.profitOutlook.toLowerCase()]}`}>
                                 {result.profitOutlook}
                             </Badge>
-                        </p>
+                        </div>
                     </div>
                 </div>
                 
