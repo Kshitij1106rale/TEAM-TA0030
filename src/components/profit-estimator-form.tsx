@@ -61,6 +61,15 @@ export function ProfitEstimatorForm() {
         challenging: 'bg-red-400/20 text-red-600 border-red-400/30',
     };
 
+    const formatCurrency = (value: number) => {
+        return new Intl.NumberFormat('en-IN', {
+          style: 'currency',
+          currency: 'INR',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }).format(value);
+    }
+
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <Card>
@@ -172,7 +181,7 @@ export function ProfitEstimatorForm() {
                 <div className="grid grid-cols-2 gap-4 text-center">
                     <div className="bg-muted/50 p-4 rounded-lg">
                         <h4 className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2"><IndianRupee className="h-4 w-4"/>Estimated Profit</h4>
-                        <p className="text-3xl font-bold text-primary">₹{result.estimatedProfit.toLocaleString('en-IN')}</p>
+                        <div className="text-3xl font-bold text-primary">{formatCurrency(result.estimatedProfit)}</div>
                     </div>
                     <div className="bg-muted/50 p-4 rounded-lg">
                         <h4 className="text-sm font-medium text-muted-foreground flex items-center justify-center gap-2"><TrendingUp className="h-4 w-4"/>Profit Outlook</h4>
