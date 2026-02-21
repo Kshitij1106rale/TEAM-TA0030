@@ -105,7 +105,7 @@ export function DashboardHeader() {
       <div className="flex items-center gap-2 lg:gap-4">
         <div className="flex items-center gap-1 md:gap-2">
             <Select value={location} onValueChange={(value) => handleLocationChange(value as Location)}>
-              <SelectTrigger className="w-auto ring-2 ring-destructive/50 focus:ring-destructive">
+              <SelectTrigger className="w-auto">
                   <div className="flex items-center gap-2">
                       <MapPin className="h-4 w-4" />
                       <div className="hidden md:block">
@@ -128,7 +128,7 @@ export function DashboardHeader() {
             </Button>
 
             <Select value={language} onValueChange={(value) => handleLanguageChange(value as Language)}>
-              <SelectTrigger className="w-auto ring-2 ring-destructive/50 focus:ring-destructive">
+              <SelectTrigger className="w-auto">
                   <div className="flex items-center gap-2">
                       <Globe className="h-4 w-4" />
                       <div className="hidden md:block">
