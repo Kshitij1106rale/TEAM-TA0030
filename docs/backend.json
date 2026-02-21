@@ -4,341 +4,556 @@
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "UserProfile",
       "type": "object",
-      "description": "Represents a user registered on the AgriVision AI platform, containing their profile information.",
+      "description": "Represents a user of the AgriVision AI platform, holding personal preferences and linking to their farms.",
       "properties": {
         "id": {
           "type": "string",
           "description": "Unique identifier for the UserProfile entity."
         },
-        "email": {
-          "type": "string",
-          "description": "The user's email address, used for communication.",
-          "format": "email"
-        },
         "name": {
           "type": "string",
-          "description": "The full name of the user or team leader."
+          "description": "The full name of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the user, used for communication (authentication handled externally).",
+          "format": "email"
         },
         "languagePreference": {
           "type": "string",
-          "description": "The preferred language for the user interface and content (e.g., 'en', 'hi', 'mr')."
+          "description": "The user's preferred language for the application interface (e.g., 'en', 'hi', 'te')."
         },
-        "location": {
+        "homeLocation": {
           "type": "string",
-          "description": "General geographic location of the user, used for location-specific advisories."
-        },
-        "createdAt": {
-          "type": "string",
-          "description": "Timestamp when the user profile was created.",
-          "format": "date-time"
-        },
-        "updatedAt": {
-          "type": "string",
-          "description": "Timestamp when the user profile was last updated.",
-          "format": "date-time"
+          "description": "A general location string for the user's primary area of interest, for default weather and market suggestions."
         }
       },
       "required": [
         "id",
-        "email",
         "name",
-        "languagePreference",
-        "location",
-        "createdAt"
+        "email",
+        "languagePreference"
+      ]
+    },
+    "Farm": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Farm",
+      "type": "object",
+      "description": "Represents a specific farm owned by a user, including its location and basic details.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Farm entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the UserProfile that owns this farm. (Relationship: UserProfile 1:N Farm)"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name given to the farm by the user."
+        },
+        "address": {
+          "type": "string",
+          "description": "The physical address of the farm."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "The geographical latitude of the farm's location."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The geographical longitude of the farm's location."
+        },
+        "areaValue": {
+          "type": "number",
+          "description": "The numerical value of the farm's area."
+        },
+        "areaUnit": {
+          "type": "string",
+          "description": "The unit of measurement for the farm's area (e.g., 'acres', 'hectares')."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "name",
+        "address",
+        "latitude",
+        "longitude",
+        "areaValue",
+        "areaUnit"
       ]
     },
     "Crop": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Crop",
       "type": "object",
-      "description": "Represents a specific crop being cultivated by a farmer, tracking its lifecycle and status.",
+      "description": "Represents a type of agricultural crop with general information.",
       "properties": {
         "id": {
           "type": "string",
           "description": "Unique identifier for the Crop entity."
         },
-        "userId": {
+        "name": {
           "type": "string",
-          "description": "Reference to the UserProfile who owns this crop. (Relationship: UserProfile 1:N Crop)"
+          "description": "The common name of the crop (e.g., 'Wheat', 'Rice')."
         },
-        "cropType": {
+        "scientificName": {
           "type": "string",
-          "description": "The type or name of the crop (e.g., 'Wheat', 'Rice', 'Cotton')."
+          "description": "The scientific or botanical name of the crop."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the crop."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL to an image representing this crop type.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "scientificName",
+        "description"
+      ]
+    },
+    "CropCycle": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CropCycle",
+      "type": "object",
+      "description": "Represents a specific instance of a crop being cultivated on a farm during a particular period.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the CropCycle entity."
+        },
+        "farmId": {
+          "type": "string",
+          "description": "Reference to the Farm where this crop cycle is taking place. (Relationship: Farm 1:N CropCycle)"
+        },
+        "cropId": {
+          "type": "string",
+          "description": "Reference to the Crop type being cultivated in this cycle. (Relationship: Crop 1:N CropCycle)"
         },
         "plantingDate": {
           "type": "string",
-          "description": "The date when the crop was planted.",
-          "format": "date"
+          "description": "The date and time when the crop was planted.",
+          "format": "date-time"
         },
         "harvestDate": {
           "type": "string",
-          "description": "The estimated or actual date when the crop is expected to be harvested.",
-          "format": "date"
+          "description": "The expected or actual date and time of harvest for the crop cycle.",
+          "format": "date-time"
         },
         "status": {
           "type": "string",
-          "description": "Current status of the crop (e.g., 'Growing', 'Diseased', 'Harvested')."
+          "description": "The current status of the crop cycle (e.g., 'planted', 'growing', 'harvested', 'diseased')."
         },
-        "locationDetails": {
-          "type": "string",
-          "description": "Specific details about the field location where the crop is grown."
+        "expectedYieldValue": {
+          "type": "number",
+          "description": "The estimated yield quantity for this crop cycle."
         },
-        "createdAt": {
+        "yieldUnit": {
           "type": "string",
-          "description": "Timestamp when the crop record was created.",
-          "format": "date-time"
+          "description": "The unit of measurement for the yield (e.g., 'kg', 'quintal')."
         },
-        "updatedAt": {
-          "type": "string",
-          "description": "Timestamp when the crop record was last updated.",
-          "format": "date-time"
+        "actualYieldValue": {
+          "type": "number",
+          "description": "The actual yield quantity realized after harvest."
         }
       },
       "required": [
         "id",
-        "userId",
-        "cropType",
+        "farmId",
+        "cropId",
         "plantingDate",
         "status",
-        "createdAt"
+        "expectedYieldValue",
+        "yieldUnit"
       ]
     },
-    "CropDiagnosis": {
+    "CropImage": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "CropDiagnosis",
+      "title": "CropImage",
       "type": "object",
-      "description": "Stores the results of an AI-powered disease detection for a specific crop image uploaded by a farmer.",
+      "description": "Represents an image of a crop leaf uploaded by a user for disease detection.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the CropDiagnosis entity."
+          "description": "Unique identifier for the CropImage entity."
         },
-        "cropId": {
+        "cropCycleId": {
           "type": "string",
-          "description": "Reference to the Crop associated with this diagnosis. (Relationship: Crop 1:N CropDiagnosis)"
+          "description": "Reference to the CropCycle this image is associated with. (Relationship: CropCycle 1:N CropImage)"
         },
-        "uploadedImageUri": {
+        "userId": {
           "type": "string",
-          "description": "URI or URL to the uploaded leaf image file.",
+          "description": "Reference to the UserProfile who uploaded the image. (Relationship: UserProfile 1:N CropImage)"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "The URL where the uploaded crop leaf image is stored.",
           "format": "uri"
         },
-        "diagnosisResult": {
+        "uploadDateTime": {
           "type": "string",
-          "description": "The AI-predicted diagnosis (e.g., 'Healthy', 'Early Blight', 'Rust', 'Powdery Mildew')."
+          "description": "The date and time when the image was uploaded.",
+          "format": "date-time"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Any additional notes or observations provided by the user about the image."
+        }
+      },
+      "required": [
+        "id",
+        "cropCycleId",
+        "userId",
+        "imageUrl",
+        "uploadDateTime"
+      ]
+    },
+    "Disease": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Disease",
+      "type": "object",
+      "description": "Represents a known agricultural disease with its characteristics and general management strategies.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Disease entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The common name of the disease."
+        },
+        "scientificName": {
+          "type": "string",
+          "description": "The scientific name of the disease or its causative pathogen."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of the disease, its impact, and life cycle."
+        },
+        "symptoms": {
+          "type": "array",
+          "description": "A list of observable symptoms associated with the disease.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "causes": {
+          "type": "array",
+          "description": "A list of known causes or causative agents for the disease.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "preventionMethods": {
+          "type": "array",
+          "description": "General methods recommended for preventing the disease.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "treatmentMethods": {
+          "type": "array",
+          "description": "General methods recommended for treating the disease.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL to an image illustrating the disease's appearance on a crop.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "scientificName",
+        "description",
+        "symptoms",
+        "causes",
+        "preventionMethods",
+        "treatmentMethods"
+      ]
+    },
+    "DiseaseDetectionResult": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "DiseaseDetectionResult",
+      "type": "object",
+      "description": "Stores the outcome of an AI-powered disease detection analysis on a crop image.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the DiseaseDetectionResult entity."
+        },
+        "cropImageId": {
+          "type": "string",
+          "description": "Reference to the CropImage that was analyzed. (Relationship: CropImage 1:N DiseaseDetectionResult)"
+        },
+        "detectedDiseaseId": {
+          "type": "string",
+          "description": "Reference to the Disease entity that was detected. (Relationship: Disease 1:N DiseaseDetectionResult)"
         },
         "confidenceScore": {
           "type": "number",
-          "description": "The confidence score (0-1) of the AI model's diagnosis."
+          "description": "The AI model's confidence score for the detected disease (e.g., 0.0 to 1.0)."
         },
-        "recommendations": {
+        "detectionDateTime": {
           "type": "string",
-          "description": "Treatment and prevention recommendations generated based on the diagnosis."
-        },
-        "diagnosisDate": {
-          "type": "string",
-          "description": "Timestamp when the diagnosis was performed.",
+          "description": "The date and time when the disease detection analysis was performed.",
           "format": "date-time"
         },
-        "processedByAiModelVersion": {
+        "recommendationId": {
           "type": "string",
-          "description": "Identifier for the version of the AI model used for the diagnosis."
-        },
-        "createdAt": {
-          "type": "string",
-          "description": "Timestamp when the diagnosis record was created.",
-          "format": "date-time"
+          "description": "Reference to a specific Recommendation provided for this detection result. (Relationship: Recommendation 1:N DiseaseDetectionResult)"
         }
       },
       "required": [
         "id",
-        "cropId",
-        "uploadedImageUri",
-        "diagnosisResult",
+        "cropImageId",
+        "detectedDiseaseId",
         "confidenceScore",
-        "recommendations",
-        "diagnosisDate",
-        "createdAt"
+        "detectionDateTime",
+        "recommendationId"
       ]
     },
-    "MarketPrice": {
+    "Recommendation": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "MarketPrice",
+      "title": "Recommendation",
       "type": "object",
-      "description": "Stores real-time or historical mandi (market) price data for various agricultural produce.",
+      "description": "Provides actionable advice for crop management, often linked to disease detection or general farming practices.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the MarketPrice entity."
+          "description": "Unique identifier for the Recommendation entity."
         },
-        "cropType": {
+        "title": {
           "type": "string",
-          "description": "The type of crop or produce for which the price is recorded (e.g., 'Wheat', 'Tomato')."
+          "description": "A concise title for the recommendation."
         },
-        "marketName": {
+        "description": {
           "type": "string",
-          "description": "The name of the mandi or market where the price was observed (e.g., 'Delhi Azadpur Mandi')."
+          "description": "Detailed steps or advisory content for the recommendation."
         },
-        "pricePerUnit": {
-          "type": "number",
-          "description": "The price of the produce per specified unit."
-        },
-        "unit": {
+        "type": {
           "type": "string",
-          "description": "The unit of measurement for the price (e.g., 'kg', 'quintal', 'tonne')."
+          "description": "The category of the recommendation (e.g., 'treatment', 'prevention', 'general advisory')."
         },
-        "currency": {
+        "appliesToCropId": {
           "type": "string",
-          "description": "The currency in which the price is quoted (e.g., 'INR', 'USD')."
+          "description": "Optional reference to the Crop type this recommendation specifically applies to. (Relationship: Crop 1:N Recommendation)"
         },
-        "dateRecorded": {
+        "appliesToDiseaseId": {
           "type": "string",
-          "description": "Timestamp when this market price was recorded.",
-          "format": "date-time"
-        },
-        "source": {
-          "type": "string",
-          "description": "The source of the market price data (e.g., 'Open Mandi API', 'Manual Entry')."
-        },
-        "location": {
-          "type": "string",
-          "description": "Geographical location of the market (e.g., 'City, State')."
+          "description": "Optional reference to the Disease this recommendation specifically addresses. (Relationship: Disease 1:N Recommendation)"
         }
       },
       "required": [
         "id",
-        "cropType",
-        "marketName",
-        "pricePerUnit",
-        "unit",
-        "currency",
-        "dateRecorded",
-        "source",
-        "location"
+        "title",
+        "description",
+        "type"
       ]
     },
-    "ProfitEstimate": {
+    "MandiMarket": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "ProfitEstimate",
+      "title": "MandiMarket",
       "type": "object",
-      "description": "Stores the calculated profit estimations for a farmer's crop, leveraging market trends and other data.",
+      "description": "Represents a specific agricultural market (mandi) where produce is traded.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the ProfitEstimate entity."
+          "description": "Unique identifier for the MandiMarket entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The official or common name of the mandi market."
+        },
+        "locationName": {
+          "type": "string",
+          "description": "The city or town where the mandi market is located."
+        },
+        "state": {
+          "type": "string",
+          "description": "The state where the mandi market is located."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "The geographical latitude of the market."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "The geographical longitude of the market."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "locationName",
+        "state",
+        "latitude",
+        "longitude"
+      ]
+    },
+    "MandiPriceRecord": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "MandiPriceRecord",
+      "type": "object",
+      "description": "Stores a single price entry for a specific crop at a particular mandi market on a given date.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the MandiPriceRecord entity."
+        },
+        "mandiMarketId": {
+          "type": "string",
+          "description": "Reference to the MandiMarket where this price was recorded. (Relationship: MandiMarket 1:N MandiPriceRecord)"
         },
         "cropId": {
           "type": "string",
-          "description": "Reference to the Crop for which the profit is estimated. (Relationship: Crop 1:N ProfitEstimate)"
+          "description": "Reference to the Crop for which the price is recorded. (Relationship: Crop 1:N MandiPriceRecord)"
         },
-        "estimatedRevenue": {
+        "pricePerUnit": {
           "type": "number",
-          "description": "The estimated total revenue from the crop based on forecast."
+          "description": "The price of the crop per specified unit."
         },
-        "estimatedCost": {
-          "type": "number",
-          "description": "The estimated total cost incurred for cultivating the crop."
-        },
-        "estimatedProfit": {
-          "type": "number",
-          "description": "The calculated estimated profit (Estimated Revenue - Estimated Cost)."
-        },
-        "calculationDate": {
+        "unit": {
           "type": "string",
-          "description": "Timestamp when this profit estimate was calculated.",
+          "description": "The unit of measurement for the price (e.g., 'INR/kg', 'INR/quintal')."
+        },
+        "recordDate": {
+          "type": "string",
+          "description": "The date and time when this price was recorded.",
           "format": "date-time"
         },
-        "marketPriceUsedId": {
+        "trendSentiment": {
           "type": "string",
-          "description": "Reference to the specific MarketPrice record used in the estimation. (Relationship: MarketPrice 1:N ProfitEstimate)"
-        },
-        "weatherImpactFactor": {
-          "type": "number",
-          "description": "A numerical factor representing the estimated impact of weather conditions on the profit."
-        },
-        "parametersUsed": {
-          "type": "string",
-          "description": "Description of key parameters or assumptions used in the profit calculation (e.g., 'Yield per Acre: 10 quintals, Expected Price: 2000 INR/quintal')."
+          "description": "An AI-derived sentiment indicating the price trend (e.g., 'rising', 'falling', 'stable')."
         }
       },
       "required": [
         "id",
+        "mandiMarketId",
         "cropId",
+        "pricePerUnit",
+        "unit",
+        "recordDate"
+      ]
+    },
+    "ProfitEstimation": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ProfitEstimation",
+      "type": "object",
+      "description": "Represents an AI-generated estimation of potential profit for a specific crop cycle.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ProfitEstimation entity."
+        },
+        "cropCycleId": {
+          "type": "string",
+          "description": "Reference to the CropCycle for which this profit estimation is made. (Relationship: CropCycle 1:N ProfitEstimation)"
+        },
+        "estimationDateTime": {
+          "type": "string",
+          "description": "The date and time when the profit estimation was generated.",
+          "format": "date-time"
+        },
+        "estimatedRevenue": {
+          "type": "number",
+          "description": "The projected total revenue for the crop cycle."
+        },
+        "estimatedCosts": {
+          "type": "number",
+          "description": "The projected total operational costs for the crop cycle."
+        },
+        "estimatedProfit": {
+          "type": "number",
+          "description": "The projected net profit (revenue - costs) for the crop cycle."
+        },
+        "forecastPeriodInDays": {
+          "type": "number",
+          "description": "The duration in days for which the profit is forecasted (e.g., 7, 30, or until harvest)."
+        },
+        "assumptions": {
+          "type": "array",
+          "description": "A list of key assumptions or factors considered during the profit estimation (e.g., 'optimal market price', 'no disease outbreak').",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "cropCycleId",
+        "estimationDateTime",
         "estimatedRevenue",
-        "estimatedCost",
+        "estimatedCosts",
         "estimatedProfit",
-        "calculationDate"
+        "forecastPeriodInDays"
       ]
     },
     "WeatherAdvisory": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "WeatherAdvisory",
       "type": "object",
-      "description": "Provides weather-based farming advisories relevant to a farmer's location, assisting in risk reduction.",
+      "description": "Provides weather-related advisories relevant to a specific farm's location.",
       "properties": {
         "id": {
           "type": "string",
           "description": "Unique identifier for the WeatherAdvisory entity."
         },
-        "userId": {
+        "farmId": {
           "type": "string",
-          "description": "Reference to the UserProfile for whom this advisory is intended. (Relationship: UserProfile 1:N WeatherAdvisory)"
+          "description": "Reference to the Farm for which this advisory is issued. (Relationship: Farm 1:N WeatherAdvisory)"
         },
-        "location": {
+        "advisoryType": {
           "type": "string",
-          "description": "The specific geographic location (e.g., village, district) to which the advisory applies."
+          "description": "The type of weather advisory (e.g., 'rainfall alert', 'temperature warning', 'wind advisory', 'pest risk')."
         },
-        "advisoryText": {
+        "summary": {
           "type": "string",
-          "description": "The actual text content of the weather-based farming advisory."
+          "description": "A brief summary of the weather advisory."
         },
-        "temperatureHigh": {
-          "type": "number",
-          "description": "The forecasted high temperature for the advisory period in Celsius."
-        },
-        "temperatureLow": {
-          "type": "number",
-          "description": "The forecasted low temperature for the advisory period in Celsius."
-        },
-        "humidity": {
-          "type": "number",
-          "description": "The forecasted average humidity percentage."
-        },
-        "precipitationChance": {
-          "type": "number",
-          "description": "The forecasted chance of precipitation percentage."
-        },
-        "windSpeed": {
-          "type": "number",
-          "description": "The forecasted wind speed in km/h."
-        },
-        "advisoryDate": {
+        "details": {
           "type": "string",
-          "description": "Timestamp when this advisory was generated.",
+          "description": "Detailed information and recommendations related to the advisory."
+        },
+        "issuedDateTime": {
+          "type": "string",
+          "description": "The date and time when the advisory was issued.",
           "format": "date-time"
         },
-        "forecastDate": {
+        "effectiveStartDateTime": {
           "type": "string",
-          "description": "The specific date for which the weather forecast and advisory apply.",
-          "format": "date"
+          "description": "The date and time when the advisory becomes effective.",
+          "format": "date-time"
+        },
+        "effectiveEndDateTime": {
+          "type": "string",
+          "description": "The date and time until which the advisory is effective.",
+          "format": "date-time"
         },
         "source": {
           "type": "string",
-          "description": "The source of the weather data and advisory (e.g., 'OpenWeather API')."
+          "description": "The source of the weather data or advisory (e.g., 'OpenWeather API')."
         }
       },
       "required": [
         "id",
-        "userId",
-        "location",
-        "advisoryText",
-        "temperatureHigh",
-        "temperatureLow",
-        "humidity",
-        "precipitationChance",
-        "windSpeed",
-        "advisoryDate",
-        "forecastDate",
-        "source"
+        "farmId",
+        "advisoryType",
+        "summary",
+        "details",
+        "issuedDateTime",
+        "effectiveStartDateTime"
       ]
     }
   },
@@ -351,101 +566,249 @@
   "firestore": {
     "structure": [
       {
-        "path": "/users/{userId}",
+        "path": "/userProfiles/{userId}",
         "definition": {
           "entityName": "UserProfile",
           "schema": {
             "$ref": "#/backend/entities/UserProfile"
           },
-          "description": "Stores individual user profiles, where the document ID `{userId}` is the user's authentication UID. Access is restricted to the user whose `uid` matches `{userId}`.",
+          "description": "Stores individual user profiles. Access is restricted to the user whose `userId` matches the document ID. The document's 'id' field matches the '{userId}' path parameter for authorization independence.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
+              "description": "The unique identifier of the user, typically matching Firebase Authentication's UID."
             }
           ]
         }
       },
       {
-        "path": "/users/{userId}/crops/{cropId}",
+        "path": "/crops/{cropId}",
         "definition": {
           "entityName": "Crop",
           "schema": {
             "$ref": "#/backend/entities/Crop"
           },
-          "description": "Stores crops owned by a specific user. Includes denormalized `userId` matching the parent user's ID for authorization independence.",
+          "description": "Global collection of different crop types. Read-only for all authenticated users.",
           "params": [
             {
-              "name": "userId",
-              "description": "The unique identifier of the user who owns this crop."
-            },
-            {
               "name": "cropId",
-              "description": "The unique identifier for a specific crop."
+              "description": "The unique identifier for a specific crop type."
             }
           ]
         }
       },
       {
-        "path": "/users/{userId}/crops/{cropId}/diagnoses/{diagnosisId}",
+        "path": "/diseases/{diseaseId}",
         "definition": {
-          "entityName": "CropDiagnosis",
+          "entityName": "Disease",
           "schema": {
-            "$ref": "#/backend/entities/CropDiagnosis"
+            "$ref": "#/backend/entities/Disease"
           },
-          "description": "Stores AI-powered disease diagnoses for a specific crop. Includes denormalized `userId` (ownerId) and `cropId` for authorization independence, allowing direct access checks.",
+          "description": "Global collection of known agricultural diseases. Read-only for all authenticated users.",
           "params": [
             {
-              "name": "userId",
-              "description": "The unique identifier of the user who owns the parent crop."
-            },
-            {
-              "name": "cropId",
-              "description": "The unique identifier of the parent crop."
-            },
-            {
-              "name": "diagnosisId",
-              "description": "The unique identifier for a specific crop diagnosis."
+              "name": "diseaseId",
+              "description": "The unique identifier for a specific disease."
             }
           ]
         }
       },
       {
-        "path": "/users/{userId}/crops/{cropId}/profitEstimates/{estimateId}",
+        "path": "/recommendations/{recommendationId}",
         "definition": {
-          "entityName": "ProfitEstimate",
+          "entityName": "Recommendation",
           "schema": {
-            "$ref": "#/backend/entities/ProfitEstimate"
+            "$ref": "#/backend/entities/Recommendation"
           },
-          "description": "Stores profit estimations for a specific crop. Includes denormalized `userId` (ownerId) and `cropId` for authorization independence, enabling direct access checks.",
+          "description": "Global collection of general and specific crop management recommendations. Read-only for all authenticated users.",
           "params": [
             {
-              "name": "userId",
-              "description": "The unique identifier of the user who owns the parent crop."
-            },
-            {
-              "name": "cropId",
-              "description": "The unique identifier of the parent crop."
-            },
-            {
-              "name": "estimateId",
-              "description": "The unique identifier for a specific profit estimate."
+              "name": "recommendationId",
+              "description": "The unique identifier for a specific recommendation."
             }
           ]
         }
       },
       {
-        "path": "/users/{userId}/weatherAdvisories/{advisoryId}",
+        "path": "/mandiMarkets/{mandiMarketId}",
+        "definition": {
+          "entityName": "MandiMarket",
+          "schema": {
+            "$ref": "#/backend/entities/MandiMarket"
+          },
+          "description": "Global collection of agricultural markets (mandis). Read-only for all authenticated users.",
+          "params": [
+            {
+              "name": "mandiMarketId",
+              "description": "The unique identifier for a specific mandi market."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/mandiPriceRecords/{mandiPriceRecordId}",
+        "definition": {
+          "entityName": "MandiPriceRecord",
+          "schema": {
+            "$ref": "#/backend/entities/MandiPriceRecord"
+          },
+          "description": "Global collection of historical and real-time mandi price data. Read-only for all authenticated users.",
+          "params": [
+            {
+              "name": "mandiPriceRecordId",
+              "description": "The unique identifier for a specific mandi price record."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/farms/{farmId}",
+        "definition": {
+          "entityName": "Farm",
+          "schema": {
+            "$ref": "#/backend/entities/Farm"
+          },
+          "description": "Stores farms belonging to a specific user. Includes the 'userId' field for authorization independence, ensuring `request.auth.uid` matches the path and the document's owner.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who owns this farm."
+            },
+            {
+              "name": "farmId",
+              "description": "The unique identifier for a specific farm."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/farms/{farmId}/cropCycles/{cropCycleId}",
+        "definition": {
+          "entityName": "CropCycle",
+          "schema": {
+            "$ref": "#/backend/entities/CropCycle"
+          },
+          "description": "Stores specific crop cycles conducted on a user's farm. Includes denormalized 'userId' and 'farmId' fields for authorization independence, matching the path.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who owns the parent farm."
+            },
+            {
+              "name": "farmId",
+              "description": "The unique identifier of the parent farm."
+            },
+            {
+              "name": "cropCycleId",
+              "description": "The unique identifier for a specific crop cycle within the farm."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/farms/{farmId}/cropCycles/{cropCycleId}/cropImages/{cropImageId}",
+        "definition": {
+          "entityName": "CropImage",
+          "schema": {
+            "$ref": "#/backend/entities/CropImage"
+          },
+          "description": "Stores crop leaf images uploaded by a user for a specific crop cycle. Includes denormalized 'userId', 'farmId', and 'cropCycleId' fields for authorization independence, matching the path.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who uploaded the image."
+            },
+            {
+              "name": "farmId",
+              "description": "The unique identifier of the parent farm."
+            },
+            {
+              "name": "cropCycleId",
+              "description": "The unique identifier of the parent crop cycle."
+            },
+            {
+              "name": "cropImageId",
+              "description": "The unique identifier for a specific crop image."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/farms/{farmId}/cropCycles/{cropCycleId}/cropImages/{cropImageId}/diseaseDetectionResults/{detectionResultId}",
+        "definition": {
+          "entityName": "DiseaseDetectionResult",
+          "schema": {
+            "$ref": "#/backend/entities/DiseaseDetectionResult"
+          },
+          "description": "Stores AI-powered disease detection outcomes for a specific crop image. Includes denormalized 'userId', 'farmId', 'cropCycleId', and 'cropImageId' fields for authorization independence, matching the path.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who owns the parent crop image."
+            },
+            {
+              "name": "farmId",
+              "description": "The unique identifier of the parent farm."
+            },
+            {
+              "name": "cropCycleId",
+              "description": "The unique identifier of the parent crop cycle."
+            },
+            {
+              "name": "cropImageId",
+              "description": "The unique identifier of the parent crop image."
+            },
+            {
+              "name": "detectionResultId",
+              "description": "The unique identifier for a specific disease detection result."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/farms/{farmId}/cropCycles/{cropCycleId}/profitEstimations/{estimationId}",
+        "definition": {
+          "entityName": "ProfitEstimation",
+          "schema": {
+            "$ref": "#/backend/entities/ProfitEstimation"
+          },
+          "description": "Stores AI-generated profit estimations for a specific crop cycle. Includes denormalized 'userId', 'farmId', and 'cropCycleId' fields for authorization independence, matching the path.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user who owns the parent crop cycle."
+            },
+            {
+              "name": "farmId",
+              "description": "The unique identifier of the parent farm."
+            },
+            {
+              "name": "cropCycleId",
+              "description": "The unique identifier of the parent crop cycle."
+            },
+            {
+              "name": "estimationId",
+              "description": "The unique identifier for a specific profit estimation."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/farms/{farmId}/weatherAdvisories/{advisoryId}",
         "definition": {
           "entityName": "WeatherAdvisory",
           "schema": {
             "$ref": "#/backend/entities/WeatherAdvisory"
           },
-          "description": "Stores weather advisories specific to a user's location. Includes denormalized `userId` for authorization independence.",
+          "description": "Stores weather-related advisories relevant to a user's specific farm. Includes denormalized 'userId' and 'farmId' fields for authorization independence, matching the path.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier of the user for whom this advisory is intended."
+              "description": "The unique identifier of the user who owns the parent farm."
+            },
+            {
+              "name": "farmId",
+              "description": "The unique identifier of the parent farm."
             },
             {
               "name": "advisoryId",
@@ -453,24 +816,8 @@
             }
           ]
         }
-      },
-      {
-        "path": "/marketPrices/{marketPriceId}",
-        "definition": {
-          "entityName": "MarketPrice",
-          "schema": {
-            "$ref": "#/backend/entities/MarketPrice"
-          },
-          "description": "Stores global, real-time or historical market price data for various crops. Intended for read-only access by all authenticated users, with write access restricted to backend services or administrators.",
-          "params": [
-            {
-              "name": "marketPriceId",
-              "description": "The unique identifier for a specific market price record."
-            }
-          ]
-        }
       }
     ],
-    "reasoning": "The recommended Firestore data structure prioritizes Authorization Independence and Structural Segregation to ensure secure, scalable, and easily debuggable access control. All user-specific data is organized under a top-level `/users/{userId}` collection, where `{userId}` directly corresponds to `request.auth.uid`. This design choice, in line with the 'Path-Based Ownership' principle, inherently provides robust security for user-owned information.\n\n**Authorization Independence via Denormalization:**\n\nFor `Crop`, `CropDiagnosis`, `ProfitEstimate`, and `WeatherAdvisory` entities, authorization independence is achieved by denormalizing the `userId` of the owner directly into each document. This means:\n\n1.  **UserProfile (`/users/{userId}`):** The document ID `{userId}` is the user's UID, providing direct ownership. The `id` field within the `UserProfile` document will store this UID.\n2.  **Crop (`/users/{userId}/crops/{cropId}`):** Each `Crop` document will contain a `userId` field that matches the `{userId}` segment of its path and `request.auth.uid`. This allows rules to directly verify `request.auth.uid == resource.data.userId` for any crop operation, eliminating the need for `get()` calls to a parent `UserProfile` document.\n3.  **CropDiagnosis (`/users/{userId}/crops/{cropId}/diagnoses/{diagnosisId}`):** Each `CropDiagnosis` document will explicitly include both `userId` (referencing the owner of the parent Crop) and `cropId`. This denormalization ensures that security rules can validate `request.auth.uid == resource.data.userId` without performing a `get()` operation on the parent `Crop` document. This is critical for atomic operations and efficient rule evaluation.\n4.  **ProfitEstimate (`/users/{userId}/crops/{cropId}/profitEstimates/{estimateId}`):** Similar to `CropDiagnosis`, each `ProfitEstimate` document will also denormalize `userId` and `cropId` for the same reasons, enabling direct ownership checks `request.auth.uid == resource.data.userId` within security rules.\n5.  **WeatherAdvisory (`/users/{userId}/weatherAdvisories/{advisoryId}`):** Each `WeatherAdvisory` document will include a `userId` field matching the `UserProfile` it's intended for, ensuring direct and efficient ownership checks.\n\n**QAPs (Rules are not Filters) Support:**\n\nThe structural segregation and denormalization strategy directly support Query Against Path Segments (QAPs) by ensuring that `list` operations are inherently secure and efficient:\n\n*   **User-Specific Data:** For collections like `/users/{userId}/crops`, `/users/{userId}/crops/{cropId}/diagnoses`, `/users/{userId}/crops/{cropId}/profitEstimates`, and `/users/{userId}/weatherAdvisories`, security rules can enforce that a user can only `list` documents where the `{userId}` path segment matches `request.auth.uid`. This guarantees that queries only return data owned by the authenticated user, thus preventing unauthorized access and adhering to QAPs.\n*   **Global Data:** The `/marketPrices` collection, designed for global, public (read-only for authenticated users) access, does not require user-specific filtering. A `list` operation on this collection will naturally return all documents, which is the intended secure behavior for this public dataset. Rules will simply allow `read` for authenticated users and restrict `write` to administrators or backend services.\n\nThis architecture minimizes rule complexity, eliminates costly `get()` operations in rules, and provides a clear, scalable foundation for the AgriVision AI platform."
+    "reasoning": "The recommended Firestore structure for AgriVision AI prioritizes security, scalability, and simplified debuggability by strictly adhering to the core design principles. This design achieves **Authorization Independence** and supports **QAPs (Rules are not Filters)** through a combination of structural segregation and strategic denormalization.\n\n**Authorization Independence via Denormalization:**\nAll user-owned and nested data is structured hierarchically under the authenticated user's ID. For example, a user's farms are located at `/users/{userId}/farms/{farmId}`. Crucially, every document in these subcollections explicitly stores the `userId` (and `farmId`, `cropCycleId`, `cropImageId` as applicable) that corresponds to its parent path segments. For instance, a `CropCycle` document, located at `/users/{userId}/farms/{farmId}/cropCycles/{cropCycleId}`, will contain `userId` and `farmId` as direct fields within the document itself. This denormalization eliminates the need for `get()` operations in security rules to check parent ownership, ensuring that rules can atomically verify authorization (e.g., `request.auth.uid == resource.data.userId`). This significantly simplifies security rules, makes them more robust against race conditions in transactions/batches, and drastically improves debugging clarity.\n\n**QAPs (Rules are not Filters) and Structural Segregation:**\n\n1.  **Private User Data:** For personal, user-specific data (e.g., `Farm`, `CropCycle`, `CropImage`, `DiseaseDetectionResult`, `ProfitEstimation`, `WeatherAdvisory`), the hierarchical path `/users/{userId}/...` is used. This structure ensures that any `list` query issued by an authenticated user automatically includes `request.auth.uid` in the path, thereby implicitly filtering the results to only include data owned by that user. Security rules simply need to verify that `request.auth.uid` matches the `{userId}` wildcard in the path and the denormalized `userId` field in the document, guaranteeing secure and efficient `list` operations without the risk of accidentally exposing unauthorized data or relying on costly server-side filtering.\n\n2.  **Global Read-Only Data:** Publicly accessible, curated data such as `Crops`, `Diseases`, `Recommendations`, `MandiMarkets`, and `MandiPriceRecords` are stored in top-level collections (e.g., `/crops/{cropId}`). These collections are designed for read-only access by all authenticated users. This structural segregation clearly defines a homogenous security posture for these collections, simplifying rules to allow `list` and `get` operations for any authenticated user, while restricting write access to administrative processes (not managed by end-users). This approach ensures scalability and ease of access for common reference data.\n\n**Other Principles:**\n*   **DBAC (Database-Backed Access Control):** Authorization relies solely on `request.auth.uid` and data stored within the database (e.g., the denormalized `userId` field) rather than custom claims.\n*   **Data Clarity:** Consistent naming conventions, descriptive wildcards (`{userId}`, `{farmId}`), and explicit state modeling (e.g., `status` field in `CropCycle`) are applied throughout for predictability and debuggability."
   }
 }

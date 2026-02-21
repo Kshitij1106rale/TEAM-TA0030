@@ -1,201 +1,298 @@
 /**
- * Core Philosophy:
- * This ruleset enforces a strict, user-centric ownership model. All user-specific
- * data is segregated within a user's own data tree under `/users/{userId}`, ensuring
- * that a user can only ever access their own information.
+ * Core Philosophy: This ruleset enforces a strict user-ownership model for all personal data,
+ * ensuring that users can only access information they own. All user-specific data is hierarchically
+ * organized under a `/users/{userId}` path. In contrast, global, non-sensitive reference data
+ * (like crop types or market information) is stored in top-level collections and is made read-only
+ * for all authenticated users to consume.
  *
- * Data Structure:
- * The data is hierarchically organized under a top-level `/users` collection, with
- * each user's data nested under their unique UID (e.g., /users/{userId}/crops/{cropId}).
- * This structure inherently supports secure querying. A separate top-level collection,
- * `/marketPrices`, holds public data readable by all authenticated users.
+ * Data Structure: The structure is bifurcated. A private, user-centric hierarchy exists at
+ * `/users/{userId}/...`, containing a user's farms, crop cycles, and related data. This
+ * deep nesting naturally scopes queries. Parallel to this are top-level collections like `/crops`
+ * and `/diseases` which serve as a public, read-only data library for the application.
  *
  * Key Security Decisions:
- * - User data is private by default. Access is restricted to the document owner.
- * - Listing of top-level user profiles (`/users`) is explicitly disallowed to prevent
- *   user enumeration.
- * - The `/marketPrices` collection is publicly readable by any authenticated user but
- *   cannot be modified by clients, securing it for backend-only writes.
- * - Destructive operations (update, delete) are only allowed on existing documents.
+ * - User data is strictly isolated; users cannot see or interact with another user's data.
+ * - Listing users from the `/userProfiles` collection is explicitly forbidden to prevent user enumeration.
+ * - Global data collections (`/crops`, `/diseases`, etc.) are read-only for client applications.
+ *   Writes to these collections must be performed by a trusted backend service or admin SDK.
+ * - All write operations require user authentication.
  *
- * Denormalization for Authorization:
- * To create simple, fast, and secure rules, this ruleset relies on denormalization.
- * Specifically, the `userId` is copied into every user-owned document (Crops,
- * Diagnoses, etc.). This avoids slow and costly `get()` calls in subcollection rules,
- * allowing for direct ownership checks like `resource.data.userId == request.auth.uid`.
+ * Denormalization for Authorization: To ensure fast and secure access control, this ruleset relies
+ * on denormalized ownership fields. For example, a `Farm` document at `/users/{userId}/farms/{farmId}`
+ * contains a `userId` field. This allows rules to verify ownership directly from the document
+ * (`resource.data.userId == userId`) without performing costly and slow `get()` calls to parent
+ * documents. This strategy is applied throughout the user data tree for simplicity and performance.
  *
- * Structural Segregation:
- * User-private data (`/users/{userId}/...`) is kept entirely separate from public-read
- * data (`/marketPrices`). This segregation simplifies rules and makes list operations
-*   inherently secure and performant.
+ * Structural Segregation: User-private data (e.g., a user's farms) is stored in subcollections
+ * under the user's ID. Public data (e.g., a list of all possible crop types) is stored in separate,
+ * top-level collections. This clear separation allows for simple and highly performant security
+ * rules for `list` operations, as a query on a user-specific path is inherently filtered to that user.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ----------------------------------------------------------------------
+    // --------------------------------------------------------------------
     // Helper Functions
-    // ----------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
     /**
-     * Returns true if the user is authenticated.
+     * Checks if the user is authenticated.
      */
     function isSignedIn() {
       return request.auth != null;
     }
 
     /**
-     * Returns true if the authenticated user's UID matches the provided userId.
-     * This is the primary function for checking document ownership.
+     * Checks if the authenticated user's UID matches the provided userId.
+     * This is the foundation of the user-ownership model.
      */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
     /**
-     * Returns true if the user is the owner AND the document already exists.
-     * Used to protect all update and delete operations from acting on non-existent data.
+     * Ensures an operation is performed by the owner on an existing document.
+     * Crucial for secure update and delete operations.
      */
     function isExistingOwner(userId) {
       return isOwner(userId) && resource != null;
     }
 
+    // --- UserProfile Validation ---
+    function isCreatingOwnProfile(userId) {
+      return isOwner(userId) && request.resource.data.id == userId;
+    }
+    function isUpdatingOwnProfile(userId) {
+      // The user's own `id` field must be immutable.
+      return isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+    }
+
+    // --- Farm Validation ---
+    function isCreatingOwnFarm(userId) {
+      // Enforce that the new farm document is correctly linked to the owner.
+      return isOwner(userId) && request.resource.data.userId == userId;
+    }
+    function isUpdatingOwnFarm(userId) {
+      // The `userId` link must be immutable.
+      return isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+    }
+
+    // --- Nested Document Validation ---
+    function isCreatingOwnCropCycle(userId, farmId) {
+      return isOwner(userId) && request.resource.data.farmId == farmId;
+    }
+    function isUpdatingOwnCropCycle(userId) {
+      return isExistingOwner(userId) && request.resource.data.farmId == resource.data.farmId;
+    }
+
+    function isCreatingOwnCropImage(userId, cropCycleId) {
+      // Enforces that the new image is linked to both the owner and the parent crop cycle.
+      return isOwner(userId) && request.resource.data.userId == userId
+          && request.resource.data.cropCycleId == cropCycleId;
+    }
+    function isUpdatingOwnCropImage(userId) {
+      // Linkages to owner and parent are immutable.
+      return isExistingOwner(userId) && request.resource.data.userId == resource.data.userId
+          && request.resource.data.cropCycleId == resource.data.cropCycleId;
+    }
+
+    function isCreatingOwnDetectionResult(userId, cropImageId) {
+      return isOwner(userId) && request.resource.data.cropImageId == cropImageId;
+    }
+    function isUpdatingOwnDetectionResult(userId) {
+      return isExistingOwner(userId) && request.resource.data.cropImageId == resource.data.cropImageId;
+    }
+
+    function isCreatingOwnProfitEstimation(userId, cropCycleId) {
+      return isOwner(userId) && request.resource.data.cropCycleId == cropCycleId;
+    }
+    function isUpdatingOwnProfitEstimation(userId) {
+      return isExistingOwner(userId) && request.resource.data.cropCycleId == resource.data.cropCycleId;
+    }
+
+    function isCreatingOwnWeatherAdvisory(userId, farmId) {
+      return isOwner(userId) && request.resource.data.farmId == farmId;
+    }
+    function isUpdatingOwnWeatherAdvisory(userId) {
+      return isExistingOwner(userId) && request.resource.data.farmId == resource.data.farmId;
+    }
+
+    // --------------------------------------------------------------------
+    // User Data Collections
+    // --------------------------------------------------------------------
+
     /**
-     * Validates that the UserProfile being created has its internal 'id'
-     * field correctly set to the user's auth UID.
+     * @description A user can create, read, update, and delete their own profile.
+     * @path /userProfiles/{userId}
+     * @allow (create) An authenticated user with auth.uid 'user123' creates their own profile at `/userProfiles/user123`.
+     * @deny (list) Any user attempting to list all documents in the `/userProfiles` collection.
+     * @principle Prevents user enumeration and enforces self-service profile management.
      */
-    function hasValidUserProfileDataOnCreate(userId) {
-      return request.resource.data.id == userId;
+    match /userProfiles/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false; // Disallow listing to prevent user enumeration
+      allow create: if isCreatingOwnProfile(userId);
+      allow update: if isUpdatingOwnProfile(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * Validates that the UserProfile's internal 'id' field remains unchanged on update.
-     */
-    function hasValidUserProfileDataOnUpdate() {
-      return request.resource.data.id == resource.data.id;
-    }
-
-    /**
-     * Validates that a user-owned document has its internal 'userId' field
-     * correctly set to the user's auth UID on creation.
-     */
-    function hasValidOwnerFieldOnCreate(userId) {
-      return request.resource.data.userId == userId;
-    }
-
-    /**
-     * Validates that a user-owned document's internal 'userId' field remains
-     * unchanged on update, preventing ownership transfer.
-     */
-    function hasImmutableOwnerField() {
-      return request.resource.data.userId == resource.data.userId;
-    }
-
-    /**
-     * Validates that a document nested under a crop has its internal `cropId`
-     * and `userId` fields correctly set on creation.
-     */
-    function hasValidCropSubdocumentDataOnCreate(userId, cropId) {
-      return request.resource.data.userId == userId
-          && request.resource.data.cropId == cropId;
-    }
-
-    /**
-     * Validates that a nested crop document's internal `cropId` and `userId`
-     * fields remain unchanged on update.
-     */
-    function hasImmutableCropSubdocumentFields() {
-      return request.resource.data.userId == resource.data.userId
-          && request.resource.data.cropId == resource.data.cropId;
-    }
-
-    // ----------------------------------------------------------------------
-    // Collection Rules
-    // ----------------------------------------------------------------------
-
-    /**
-     * @description Controls access to user profile documents.
+     * @description Defines rules for all user-specific nested data. Access is granted only to the owner.
      * @path /users/{userId}
-     * @allow A user (auth.uid=`user_abc`) creating their own profile (docId=`user_abc`). (create)
-     * @deny A user (auth.uid=`user_xyz`) reading another user's profile (docId=`user_abc`). (get)
-     * @principle Restricts access to a user's own data tree and prevents user enumeration.
+     * @allow (read) User 'user123' can access any document within `/users/user123/...`.
+     * @deny (read) User 'user456' cannot access any document within `/users/user123/...`.
+     * @principle Establishes a secure data boundary for all user-owned information.
      */
     match /users/{userId} {
-      allow get: if isOwner(userId);
-      allow list: if false;
-      allow create: if isOwner(userId) && hasValidUserProfileDataOnCreate(userId);
-      allow update: if isExistingOwner(userId) && hasValidUserProfileDataOnUpdate();
-      allow delete: if isExistingOwner(userId);
 
       /**
-       * @description Controls access to a user's crop documents.
-       * @path /users/{userId}/crops/{cropId}
-       * @allow A user (auth.uid=`user_abc`) listing their own crops. (list)
-       * @deny A user (auth.uid=`user_xyz`) creating a crop under another user's path. (create)
-       * @principle Enforces document ownership for all operations within a user-specific subcollection.
+       * @description A user can manage the farms they own.
+       * @path /users/{userId}/farms/{farmId}
+       * @allow (create) User 'user123' creates a new farm document in their own `/farms` subcollection.
+       * @deny (update) User 'user456' attempts to update a farm document belonging to 'user123'.
+       * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
        */
-      match /crops/{cropId} {
+      match /farms/{farmId} {
         allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && hasValidOwnerFieldOnCreate(userId);
-        allow update: if isExistingOwner(userId) && hasImmutableOwnerField();
+        allow create: if isCreatingOwnFarm(userId);
+        allow update: if isUpdatingOwnFarm(userId);
         allow delete: if isExistingOwner(userId);
 
         /**
-         * @description Controls access to AI crop diagnoses.
-         * @path /users/{userId}/crops/{cropId}/diagnoses/{diagnosisId}
-         * @allow A user (auth.uid=`user_abc`) creating a diagnosis for their own crop. (create)
-         * @deny A user (auth.uid=`user_xyz`) reading a diagnosis for another user's crop. (get)
-         * @principle Ensures data integrity by validating denormalized `userId` and `cropId` fields.
+         * @description A user can manage crop cycles for their own farms.
+         * @path /users/{userId}/farms/{farmId}/cropCycles/{cropCycleId}
+         * @allow (list) User 'user123' lists all crop cycles for their farm 'farmABC'.
+         * @deny (create) User 'user123' tries to create a crop cycle for a farm owned by 'user456'.
+         * @principle Validates relational integrity to the parent farm and maintains ownership.
          */
-        match /diagnoses/{diagnosisId} {
+        match /cropCycles/{cropCycleId} {
           allow get, list: if isOwner(userId);
-          allow create: if isOwner(userId) && hasValidCropSubdocumentDataOnCreate(userId, cropId);
-          allow update: if isExistingOwner(userId) && hasImmutableCropSubdocumentFields();
+          allow create: if isCreatingOwnCropCycle(userId, farmId);
+          allow update: if isUpdatingOwnCropCycle(userId);
           allow delete: if isExistingOwner(userId);
+
+          /**
+           * @description A user can manage images for their own crop cycles.
+           * @path /users/{userId}/farms/{farmId}/cropCycles/{cropCycleId}/cropImages/{cropImageId}
+           * @allow (create) User 'user123' uploads an image for their crop cycle 'cycleXYZ'.
+           * @deny (delete) User 'user456' attempts to delete an image belonging to 'user123'.
+           * @principle Enforces document ownership and validates relational integrity.
+           */
+          match /cropImages/{cropImageId} {
+            allow get, list: if isOwner(userId);
+            allow create: if isCreatingOwnCropImage(userId, cropCycleId);
+            allow update: if isUpdatingOwnCropImage(userId);
+            allow delete: if isExistingOwner(userId);
+
+            /**
+             * @description A user can read disease detection results for their own crop images.
+             * @path /users/{userId}/farms/{farmId}/cropCycles/{cropCycleId}/cropImages/{cropImageId}/diseaseDetectionResults/{detectionResultId}
+             * @allow (get) User 'user123' reads a detection result for an image they uploaded.
+             * @deny (create) A user attempts to create a detection result (this is likely a server-side process).
+             * @principle Restricts access based on the ownership of the parent data tree.
+             */
+            match /diseaseDetectionResults/{detectionResultId} {
+              allow get, list: if isOwner(userId);
+              allow create: if isCreatingOwnDetectionResult(userId, cropImageId);
+              allow update: if isUpdatingOwnDetectionResult(userId);
+              allow delete: if isExistingOwner(userId);
+            }
+          }
+
+          /**
+           * @description A user can manage profit estimations for their own crop cycles.
+           * @path /users/{userId}/farms/{farmId}/cropCycles/{cropCycleId}/profitEstimations/{estimationId}
+           * @allow (get) User 'user123' reads a profit estimation for their crop cycle 'cycleXYZ'.
+           * @deny (update) User 'user456' attempts to update an estimation belonging to 'user123'.
+           * @principle Restricts access based on the ownership of the parent data tree.
+           */
+          match /profitEstimations/{estimationId} {
+            allow get, list: if isOwner(userId);
+            allow create: if isCreatingOwnProfitEstimation(userId, cropCycleId);
+            allow update: if isUpdatingOwnProfitEstimation(userId);
+            allow delete: if isExistingOwner(userId);
+          }
         }
 
         /**
-         * @description Controls access to crop profit estimations.
-         * @path /users/{userId}/crops/{cropId}/profitEstimates/{estimateId}
-         * @allow A user (auth.uid=`user_abc`) updating an estimate for their own crop. (update)
-         * @deny A user (auth.uid=`user_xyz`) deleting an estimate for another user's crop. (delete)
-         * @principle Enforces strict ownership on deeply nested subcollections via denormalized IDs.
+         * @description A user can manage weather advisories for their own farms.
+         * @path /users/{userId}/farms/{farmId}/weatherAdvisories/{advisoryId}
+         * @allow (get) User 'user123' reads a weather advisory for their farm 'farmABC'.
+         * @deny (create) User 'user456' attempts to create an advisory for a farm owned by 'user123'.
+         * @principle Restricts access based on the ownership of the parent data tree.
          */
-        match /profitEstimates/{estimateId} {
+        match /weatherAdvisories/{advisoryId} {
           allow get, list: if isOwner(userId);
-          allow create: if isOwner(userId) && hasValidCropSubdocumentDataOnCreate(userId, cropId);
-          allow update: if isExistingOwner(userId) && hasImmutableCropSubdocumentFields();
+          allow create: if isCreatingOwnWeatherAdvisory(userId, farmId);
+          allow update: if isUpdatingOwnWeatherAdvisory(userId);
           allow delete: if isExistingOwner(userId);
         }
-      }
-
-      /**
-       * @description Controls access to user-specific weather advisories.
-       * @path /users/{userId}/weatherAdvisories/{advisoryId}
-       * @allow A user (auth.uid=`user_abc`) reading an advisory intended for them. (get)
-       * @deny A user (auth.uid=`user_xyz`) creating an advisory for another user. (create)
-       * @principle Restricts access to documents based on the denormalized `userId` owner field.
-       */
-      match /weatherAdvisories/{advisoryId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && hasValidOwnerFieldOnCreate(userId);
-        allow update: if isExistingOwner(userId) && hasImmutableOwnerField();
-        allow delete: if isExistingOwner(userId);
       }
     }
 
+    // --------------------------------------------------------------------
+    // Global Read-Only Collections
+    // --------------------------------------------------------------------
+
     /**
-     * @description Controls access to global market price data.
-     * @path /marketPrices/{marketPriceId}
-     * @allow Any authenticated user reading or listing market prices. (get, list)
-     * @deny Any client, authenticated or not, attempting to write data. (create, update, delete)
-     * @principle Provides public read access for all authenticated users while prohibiting all client-side writes.
+     * @description Global collection of crop types. Read-only for all authenticated users.
+     * @path /crops/{cropId}
+     * @allow (get, list) Any authenticated user can read crop information.
+     * @deny (create, update, delete) No client is allowed to modify the global crop list.
+     * @principle Provides public, read-only access to common reference data.
      */
-    match /marketPrices/{marketPriceId} {
+    match /crops/{cropId} {
       allow get, list: if isSignedIn();
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Global collection of known diseases. Read-only for all authenticated users.
+     * @path /diseases/{diseaseId}
+     * @allow (get, list) Any authenticated user can read disease information.
+     * @deny (create, update, delete) No client is allowed to modify the global disease list.
+     * @principle Provides public, read-only access to common reference data.
+     */
+    match /diseases/{diseaseId} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Global collection of recommendations. Read-only for all authenticated users.
+     * @path /recommendations/{recommendationId}
+     * @allow (get, list) Any authenticated user can read recommendations.
+     * @deny (create, update, delete) No client is allowed to modify global recommendations.
+     * @principle Provides public, read-only access to common reference data.
+     */
+    match /recommendations/{recommendationId} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Global collection of mandi markets. Read-only for all authenticated users.
+     * @path /mandiMarkets/{mandiMarketId}
+     * @allow (get, list) Any authenticated user can read market information.
+     * @deny (create, update, delete) No client is allowed to modify the global market list.
+     * @principle Provides public, read-only access to common reference data.
+     */
+    match /mandiMarkets/{mandiMarketId} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Global collection of mandi price records. Read-only for all authenticated users.
+     * @path /mandiPriceRecords/{mandiPriceRecordId}
+     * @allow (get, list) Any authenticated user can read price data.
+     * @deny (create, update, delete) No client is allowed to modify historical price data.
+     * @principle Provides public, read-only access to common reference data.
+     */
+    match /mandiPriceRecords/{mandiPriceRecordId} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if false;
     }
   }
 }
