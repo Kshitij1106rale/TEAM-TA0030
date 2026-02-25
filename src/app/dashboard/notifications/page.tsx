@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Bell, Wind, BarChart, Sprout, Check } from 'lucide-react';
+import { Bell, Wind, BarChart, Sprout, Check, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTranslation } from '@/providers/i18n-provider';
@@ -29,6 +29,10 @@ export default function NotificationsPage() {
 
   const markAsRead = (id: string) => {
     setNotifications(notifications.map(n => n.id === id ? { ...n, isRead: true } : n));
+  };
+
+  const removeNotification = (id: string) => {
+    setNotifications(notifications.filter(n => n.id !== id));
   };
 
   const markAllAsRead = () => {
@@ -64,7 +68,7 @@ export default function NotificationsPage() {
           <div className="space-y-2">
             {notifications.length > 0 ? notifications.map((notification, index) => (
               <div key={notification.id}>
-                <div className={cn("flex items-start gap-4 p-4", !notification.isRead && "bg-accent/50")}>
+                <div className={cn("flex items-center gap-4 p-4", !notification.isRead && "bg-accent/50")}>
                   <div className="mt-1 flex-shrink-0">
                       {typeIcons[notification.type]}
                   </div>
@@ -75,12 +79,19 @@ export default function NotificationsPage() {
                       {formatDistanceToNow(new Date(notification.timestamp), { addSuffix: true, locale: localeMap[language] })}
                     </p>
                   </div>
-                  {!notification.isRead && (
-                    <Button variant="ghost" size="sm" onClick={() => markAsRead(notification.id)}>
-                       <Check className="h-4 w-4 mr-2" />
-                       {t('notifications.allNotifications.markAsRead')}
-                    </Button>
-                  )}
+                  <div className="flex-shrink-0">
+                    {!notification.isRead ? (
+                      <Button variant="ghost" size="sm" onClick={() => markAsRead(notification.id)}>
+                         <Check className="h-4 w-4 mr-2" />
+                         {t('notifications.allNotifications.markAsRead')}
+                      </Button>
+                    ) : (
+                      <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" onClick={() => removeNotification(notification.id)}>
+                         <Trash2 className="h-4 w-4 mr-2" />
+                         {t('notifications.allNotifications.remove')}
+                      </Button>
+                    )}
+                  </div>
                 </div>
                 {index < notifications.length - 1 && <Separator />}
               </div>

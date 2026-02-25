@@ -220,7 +220,8 @@
             "title": "All Notifications",
             "description": "Manage and view all your past and present notifications.",
             "noNotifications": "You're all caught up!",
-            "markAsRead": "Mark as read"
+            "markAsRead": "Mark as read",
+            "remove": "Remove"
         }
     }
 }
