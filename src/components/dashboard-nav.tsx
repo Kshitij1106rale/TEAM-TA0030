@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sprout, LayoutDashboard, Landmark, Calculator, Leaf } from 'lucide-react';
+import { Sprout, LayoutDashboard, Landmark, Calculator, Leaf, Bell } from 'lucide-react';
 import {
   SidebarHeader,
   SidebarContent,
@@ -20,6 +20,7 @@ const navItems = [
   { href: '/dashboard/disease-detection', labelKey: 'nav.diseaseDetection', icon: Sprout },
   { href: '/dashboard/market-prices', labelKey: 'nav.marketPrices', icon: Landmark },
   { href: '/dashboard/profit-estimator', labelKey: 'nav.profitEstimator', icon: Calculator },
+  { href: '/dashboard/notifications', labelKey: 'nav.notifications', icon: Bell },
 ];
 
 export function DashboardNav() {

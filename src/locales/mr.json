@@ -7,7 +7,8 @@
         "dashboard": "डॅशबोर्ड",
         "diseaseDetection": "रोग निदान",
         "marketPrices": "बाजार भाव",
-        "profitEstimator": "नफा अंदाजक"
+        "profitEstimator": "नफा अंदाजक",
+        "notifications": "सूचना"
     },
     "header": {
         "language": "भाषा",
@@ -206,6 +207,20 @@
         "locationError": {
             "title": "स्थानावर प्रवेश करू शकत नाही",
             "description": "हे वैशिष्ट्य वापरण्यासाठी कृपया तुमच्या ब्राउझरमध्ये स्थान परवानगी द्या."
+        },
+        "profitEstimateReady": {
+            "title": "नफा अंदाज तयार",
+            "description": "गव्हासाठी तुमचा नफा अंदाज पूर्ण झाला आहे. अहवाल पहा."
+        },
+        "newMarketData": {
+            "title": "नवीन बाजार डेटा उपलब्ध",
+            "description": "पुण्यासाठी आजचे बाजार भाव अद्यतनित केले आहेत."
+        },
+        "allNotifications": {
+            "title": "सर्व सूचना",
+            "description": "तुमच्या सर्व मागील आणि वर्तमान सूचना व्यवस्थापित करा आणि पहा.",
+            "noNotifications": "तुम्ही पूर्णपणे अपडेट आहात!",
+            "markAsRead": "वाचलेले म्हणून चिन्हांकित करा"
         }
     }
 }

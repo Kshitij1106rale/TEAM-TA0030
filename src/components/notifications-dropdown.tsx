@@ -93,7 +93,7 @@ export function NotificationsDropdown() {
                 <DropdownMenuSeparator />
                 <div className="p-1">
                     <Button variant="link" asChild className="w-full justify-center text-sm">
-                        <Link href="#">{t('notifications.viewAll')}</Link>
+                        <Link href="/dashboard/notifications">{t('notifications.viewAll')}</Link>
                     </Button>
                 </div>
             </>

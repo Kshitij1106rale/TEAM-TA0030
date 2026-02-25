@@ -32,4 +32,20 @@ export type Notification = {
           isRead: true,
           type: 'disease',
       },
+      {
+          id: '4',
+          title: 'notifications.profitEstimateReady.title',
+          description: 'notifications.profitEstimateReady.description',
+          timestamp: '2024-07-21T18:00:00.000Z',
+          isRead: true,
+          type: 'advisory',
+      },
+      {
+          id: '5',
+          title: 'notifications.newMarketData.title',
+          description: 'notifications.newMarketData.description',
+          timestamp: '2024-07-20T12:00:00.000Z',
+          isRead: true,
+          type: 'price',
+      }
   ];

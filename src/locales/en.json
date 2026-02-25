@@ -7,7 +7,8 @@
         "dashboard": "Dashboard",
         "diseaseDetection": "Disease Detection",
         "marketPrices": "Market Prices",
-        "profitEstimator": "Profit Estimator"
+        "profitEstimator": "Profit Estimator",
+        "notifications": "Notifications"
     },
     "header": {
         "language": "Language",
@@ -206,6 +207,20 @@
         "locationError": {
             "title": "Unable to Access Location",
             "description": "Please grant location permission in your browser to use this feature."
+        },
+        "profitEstimateReady": {
+            "title": "Profit Estimate Ready",
+            "description": "Your profit estimation for Wheat is complete. View the report."
+        },
+        "newMarketData": {
+            "title": "New Market Data Available",
+            "description": "Today's market prices for Pune have been updated."
+        },
+        "allNotifications": {
+            "title": "All Notifications",
+            "description": "Manage and view all your past and present notifications.",
+            "noNotifications": "You're all caught up!",
+            "markAsRead": "Mark as read"
         }
     }
 }
